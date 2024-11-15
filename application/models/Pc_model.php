@@ -9,5 +9,9 @@ class Pc_model extends CI_Model {
     {
         $this->load->database();
     }
-    
+    public function get_Infos_visu($nomPc){
+        $this->db->select("*");
+        $this->db->from('hardware');
+        $this->db->where('NAME', $nomPc);
+    }
 }
