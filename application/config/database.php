@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'adminer',
-	'password' => 'Azerty123',
-	'database' => 'ocs-technova',
+	'hostname' => 'mysql-jouin-n.alwaysdata.net',
+	'username' => 'jouin-n_ocs',
+	'password' => 'Nicolas.277',
+	'database' => 'jouin-n_ocs-technova	',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
