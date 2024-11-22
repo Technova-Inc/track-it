@@ -110,11 +110,12 @@
                     </div>
                     <div class="card-body">
                         <textarea
+                            value="<?php echo $pc[0]['DESCRIPTION']?>"
                             class="form-control"
                             rows="5"
-                            placeholder="Write your notes here..."
+                            placeholder="Insérer une note pour <?php echo $pc[0]['NAME']?>"
                         ></textarea>
-                        <button class="btnv btn btn-primary mt-3 w-100">Save</button>
+                        <button class="btnv btn btn-primary mt-3 w-100">Sauvegarder</button>
                     </div>
                 </div>
             </div>
