@@ -1,40 +1,40 @@
 <!-- Main content area -->
 <div class="container-fluid d-flex justify-content-center align-items-center">
     <div class="container">
-        <h1 class="mb-3 text-center"><?php echo $lorem['NAME'].'okkk'?></h1>
+        <h1 class="mb-3 text-center"><?php echo $pc[0]['NAME']?></h1>
         <div class="row">
             <div class="col-lg-6 mx-auto">
                 <div class="card h-100">
                     <div class="card-header">
-                        <h5 class="mb-0">System</h5>
+                        <h5 class="mb-0">Informations système</h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <tbody>
                                     <tr>
-                                        <th scope="row">OS Name :</th>
-                                        <td class="text-start">John Doe</td>
+                                        <th scope="row">OS :</th>
+                                        <td class="text-start"><?php echo $pc[0]['OSNAME']?></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">OS Version :</th>
-                                        <td class="text-start">John Doe</td>
+                                        <td class="text-start"><?php echo $pc[0]['OSVERSION']?></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Architecture :</th>
-                                        <td class="text-start">John Doe</td>
+                                        <td class="text-start"><?php echo $pc[0]['ARCH']?></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Windows user :</th>
-                                        <td class="text-start">John Doe</td>
+                                        <th scope="row">Utilisateur windows :</th>
+                                        <td class="text-start"><?php echo $pc[0]['WINOWNER']?></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Windows license :</th>
-                                        <td class="text-start">John Doe</td>
+                                        <th scope="row">Licence windows :</th>
+                                        <td class="text-start"><?php echo $pc[0]['WINPRODID']?></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Windows key :</th>
-                                        <td class="text-start">John Doe</td>
+                                        <th scope="row">Clé windows :</th>
+                                        <td class="text-start"><?php echo $pc[0]['WINPRODKEY']?></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -48,15 +48,15 @@
                             <tbody>
                                 <tr>
                                     <th scope="row">Swap :</th>
-                                    <td class="text-start">John Doe</td>
+                                    <td class="text-start"><?php echo $pc[0]['SWAP']?></td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Memory :</th>
-                                    <td class="text-start">John Doe</td>
+                                    <th scope="row">RAM :</th>
+                                    <td class="text-start"><?php echo $pc[0]['MEMORY']?></td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Uuid :</th>
-                                    <td class="text-start">John Doe</td>
+                                    <td class="text-start"><?php echo $pc[0]['UUID']?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -66,19 +66,19 @@
             <div class="col-lg-6">
                 <div class="card h-100">
                     <div class="card-header">
-                        <h5 class="mb-0">Network</h5>
+                        <h5 class="mb-0">Réseau</h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <tbody>
                                     <tr>
-                                        <th scope="row">Domain :</th>
-                                        <td class="text-start">John Doe</td>
+                                        <th scope="row">Domaine :</th>
+                                        <td class="text-start"><?php echo $pc[0]['WORKGROUP']?></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">IP address :</th>
-                                        <td class="text-start">John Doe</td>
+                                        <th scope="row">Adresse IP :</th>
+                                        <td class="text-start"><?php echo $pc[0]['IPADDR']?></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -92,15 +92,15 @@
                             <tbody>
                                 <tr>
                                     <th scope="row">User agent :</th>
-                                    <td class="text-start">John Doe</td>
+                                    <td class="text-start"><?php echo $pc[0]['USERAGENT']?></td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Last inventory :</th>
-                                    <td class="text-start">John Doe</td>
+                                    <th scope="row">Dernier inventaire :</th>
+                                    <td class="text-start"><?php echo $pc[0]['LASTDATE']?></td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">last contact :</th>
-                                    <td class="text-start">John Doe</td>
+                                    <th scope="row">Dernier contact :</th>
+                                    <td class="text-start"><?php echo $pc[0]['LASTCOME']?></td>
                                 </tr>
                             </tbody>
                         </table>

@@ -12,9 +12,10 @@ class Consultation extends CI_Controller {
     }
     private function commun(){
         $nomPc = "322-ACR-M4630G";
+        $data['pc'] = $this->Pc_model->get_Infos_cons_main($nomPc);
         $this->load->view('structure/v_page_entete');
+        var_dump($data);
         $this->load->view('structure/v_page_menu');
-        $data['lorem'] = $this->Pc_model->get_Infos_cons_main($nomPc);
         $this->load->view('consultation/v_cons_main',$data);
         $this->load->view('structure/v_page_pied');
     }
