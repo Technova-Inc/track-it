@@ -19,8 +19,9 @@
                         data-bs-target="#collapseOne"
                         aria-expanded="false"
                         aria-controls="collapseOne"
+                        disabled
                     >
-                        <i class="bi bi-folder me-2"></i> Menu 1
+                        <i class="bi bi-folder me-2"></i> Indisponible
                     </button>
                 </h2>
                 <div
@@ -34,62 +35,6 @@
                             <li><a href="#" class="list-group-item">Sub-item 1</a></li>
                             <li><a href="#" class="list-group-item">Sub-item 2</a></li>
                             <li><a href="#" class="list-group-item">Sub-item 3</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingTwo">
-                    <button
-                        class="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseTwo"
-                        aria-expanded="false"
-                        aria-controls="collapseTwo"
-                    >
-                        <i class="bi bi-gear-fill me-2"></i> Menu 2
-                    </button>
-                </h2>
-                <div
-                    id="collapseTwo"
-                    class="accordion-collapse collapse"
-                    aria-labelledby="headingTwo"
-                    data-bs-parent="#sidebarAccordion"
-                >
-                    <div class="accordion-body">
-                        <ul class="list-group">
-                            <li><a href="#" class="list-group-item">Sub-item A</a></li>
-                            <li><a href="#" class="list-group-item">Sub-item B</a></li>
-                            <li><a href="#" class="list-group-item">Sub-item C</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingThree">
-                    <button
-                        class="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseThree"
-                        aria-expanded="false"
-                        aria-controls="collapseThree"
-                    >
-                        <i class="bi bi-bar-chart-fill me-2"></i> Menu 3
-                    </button>
-                </h2>
-                <div
-                    id="collapseThree"
-                    class="accordion-collapse collapse"
-                    aria-labelledby="headingThree"
-                    data-bs-parent="#sidebarAccordion"
-                >
-                    <div class="accordion-body">
-                        <ul class="list-group">
-                            <li><a href="#" class="list-group-item">Sub-item X</a></li>
-                            <li><a href="#" class="list-group-item">Sub-item Y</a></li>
-                            <li><a href="#" class="list-group-item">Sub-item Z</a></li>
                         </ul>
                     </div>
                 </div>
