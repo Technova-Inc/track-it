@@ -9,9 +9,15 @@ class Pc_model extends CI_Model {
     {
         $this->load->database();
     }
-    public function get_Infos_visu($nomPc){
+    /**
+     * Méthode permettant de récupérer les informations pour l'affichage des informations général d'un PC
+     * @params $nomPc => Le nom du pc
+     * @return Tableau avec les informations du pc
+     */
+    public function get_Infos_cons_main($nomPc){
         $this->db->select("*");
         $this->db->from('hardware');
         $this->db->where('NAME', $nomPc);
+        return $this->db->get()->result_array();
     }
 }
