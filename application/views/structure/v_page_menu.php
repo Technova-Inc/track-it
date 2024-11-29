@@ -42,6 +42,6 @@
         </div>
     </ul>
     <a href="#" class="logout">
-        <i class="bi bi-box-arrow-right me-2"></i> Logout
+        <i class="bi bi-box-arrow-right me-2"></i>&nbsp;Déconnexion
     </a>
 </nav>
