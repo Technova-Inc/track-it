@@ -8,6 +8,9 @@
             <a href="#" class="nav-link active">
                 <i class="bi bi-house-door-fill me-2"></i> Dashboard
             </a>
+            <a href="#" class="nav-link">
+                <i class="bi bi-house-door-fill me-2"></i> Dashboard
+            </a>
         </li>
         <div class="accordion" id="sidebarAccordion">
             <div class="accordion-item">
