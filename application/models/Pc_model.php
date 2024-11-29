@@ -23,7 +23,7 @@ class Pc_model extends CI_Model {
     public function get_Infos_cons_network($nomPc){
         $this->db->select("*");
         $this->db->from('networks');
-        $this->db->join('hardware', 'hardware.ID = NETWORK.ID_HARDWARE');
+        $this->db->join('hardware', 'hardware.ID = networks.HARDWARE_ID');
         $this->db->where('hardware.NAME', $nomPc);
         return $this->db->get()->result_array();
     }

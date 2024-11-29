@@ -1,6 +1,3 @@
-<?php 
-var_dump($network);
-?>
 <div class="row content-center mt-5">
                 <div class="card h-100">
                     <div class="card-header">
@@ -11,33 +8,34 @@ var_dump($network);
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Description</th>
-                                        <th scope="col">Type</th>
-                                        <th scope="col">Vitesse</th>
-                                        <th scope="col">MTU</th>
-                                        <th scope="col">Adresse MAC</th>
-                                        <th scope="col">Etat</th>
                                         <th scope="col">Adresse IP</th>
                                         <th scope="col">Masque</th>
+                                        <th scope="col">Vitesse</th>
+                                        <th scope="col">Adresse MAC</th>
+                                        <th scope="col">MTU</th>
+                                        <th scope="col">Etat</th>
                                         <th scope="col">Passerelle</th>
-                                        <th scope="col">Numéro réseau</th>
                                         <th scope="col">IP DHCP</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php foreach($network as $Mynetwork): ?>
                                     <tr>
-                                        <td class="text-start">Ethernet 1</td>
-                                        <td class="text-start">Ethernet</td>
-                                        <td class="text-start">1000 Mbps</td>
-                                        <td class="text-start">1500</td>
-                                        <td class="text-start">00:14:22:01:23:45</td>
-                                        <td class="text-start">Up</td>
-                                        <td class="text-start">192.168.1.10</td>
-                                        <td class="text-start">255.255.255.0</td>
-                                        <td class="text-start">192.168.1.1</td>
-                                        <td class="text-start">192.168.1.0</td>
-                                        <td class="text-start">192.168.1.100</td>
+                                        <td class="text-start"><?php echo $Mynetwork['IPADDRESS']?></td>
+                                        <td class="text-start"><?php echo $Mynetwork['IPMASK']?></td>
+                                        <td class="text-start"><?php echo $Mynetwork['SPEED']?></td>
+                                        <td class="text-start"><?php echo $Mynetwork['MACADDR']?></td>
+
+                                        <td class="text-start"><?php echo $Mynetwork['MTU']?></td>
+                                        <td class="text-start"><?php echo $Mynetwork['STATUS']?></td>
+                                        <td class="text-start"><?php echo $Mynetwork['IPGATEWAY']?></td>
+                                        <td class="text-start"><?php echo $Mynetwork['IPDHCP']?></td>
+                                        <td class="text-start"><?php echo $Mynetwork['TYPEMIB']?></td>
+                                        <td class="text-start"><?php echo $Mynetwork['DESCRIPTION']?></td>
                                     </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
