@@ -16,6 +16,7 @@ class Consultation extends CI_Controller {
         $this->load->view('structure/v_page_entete');
         $this->load->view('structure/v_page_menu');
         $this->load->view('consultation/v_cons_main',$data);
+        $this->load->view('consultation/v_cons_software');
         $this->load->view('structure/v_page_pied');
     }
 }
