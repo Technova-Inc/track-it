@@ -21,7 +21,8 @@ class Consultation extends CI_Controller {
         $this->load->view('structure/v_page_menu');
         $data['pc'] = $this->Pc_model->get_Infos_cons_main($nomPc);
         $this->load->view('consultation/v_cons_main',$data);
-        $this->load->view('consultation/v_cons_software');
+        $data['software'] = $this->Pc_model->get_Infos_cons_software($nomPc);
+        $this->load->view('consultation/v_cons_software' ,$data);
         $data['network'] = $this->Pc_model->get_Infos_cons_network($nomPc);
         $this->load->view('consultation/v_cons_network',$data);
         $this->load->view('structure/v_page_pied');

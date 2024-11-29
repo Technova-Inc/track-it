@@ -17,12 +17,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="text-start">Microsoft</td>
-                                        <td class="text-start">Windows 10</td>
-                                        <td class="text-start">21H2</td>
-                                        <td class="text-start">Stable version</td>
-                                    </tr>
+                                    <?php foreach($software as $MySoftware): ?>
+                                        <tr>
+                                            <td class="text-start"><?php echo $MySoftware['GUID']?></td>
+                                            <td class="text-start">Windows 10</td>
+                                            <td class="text-start">21H2</td>
+                                            <td class="text-start">Stable version</td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
