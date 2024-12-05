@@ -27,7 +27,6 @@
                                         <td class="text-start"><?php echo $Mynetwork['IPMASK']?></td>
                                         <td class="text-start"><?php echo $Mynetwork['SPEED']?></td>
                                         <td class="text-start"><?php echo $Mynetwork['MACADDR']?></td>
-
                                         <td class="text-start"><?php echo $Mynetwork['MTU']?></td>
                                         <td class="text-start"><?php echo $Mynetwork['STATUS']?></td>
                                         <td class="text-start"><?php echo $Mynetwork['IPGATEWAY']?></td>
