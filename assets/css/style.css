@@ -93,13 +93,33 @@ body {
 
 /* Cartes et tableaux */
 .card {
-  border: none;
+  background-color: #f5f6fa;
+  border: 1px solid #6f42c1;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding-left: 0%;
-  padding-right: 0%;
+  color: #f0f0f0; 
 }
 
+/* Supprimer l'effet hover global sur les cartes */
+.card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Appliquer l'effet hover uniquement à .dash */
+.dash:hover {
+  transform: translateY(-10px); /* Déplacement de toute la carte */
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); /* Ombre */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transition fluide */
+}
+
+/* Désactiver les mouvements des sous-éléments de .dash */
+.dash * {
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Carte-header */
 .card-header {
   background-color: #6f42c1;
   color: #fff;
@@ -170,7 +190,6 @@ textarea:focus-visible {
   outline: none; /* Supprimer l'effet de bordure au focus */
 }
 
-
 .percentage-card {
   width: 250px;   /* Largeur fixe */
   height: 250px;  /* Hauteur fixe */
@@ -220,4 +239,9 @@ textarea:focus-visible {
 .btnv:focus-visible {
   box-shadow: none; /* Supprimer l'ombre et la bordure bleue */
   outline: none; /* Supprimer l'effet de bordure au focus */
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: bold;
 }
