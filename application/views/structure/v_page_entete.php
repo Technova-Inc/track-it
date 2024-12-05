@@ -14,6 +14,7 @@
 			rel="stylesheet"
 		/>
 		<link href="<?php echo  site_url('../assets/css/style.css') ?>" rel="stylesheet" />
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	</head>
     <body>
         <div class="d-flex vh-100">
