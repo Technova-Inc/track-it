@@ -28,10 +28,12 @@ class Pc_model extends CI_Model {
         return $this->db->get()->result_array();
     }
     public function get_Infos_cons_software($nomPc){
-        $this->db->select("*");
+        $this->db->select("software_name.NAME, VERSION, PUBLISHER, COMMENTS, LANGUAGE, INSTALLDATE ");
         $this->db->from('software');
         $this->db->join('hardware', 'hardware.ID = software.HARDWARE_ID');
-        $this->db->join('software_types', 'software_types.ID = software.SOFTWARE_TYPE_ID');
+        $this->db->join('software_name', 'software_name.ID = software.NAME_ID');
+        $this->db->join('software_publisher', 'software_publisher.ID = software.PUBLISHER_ID');
+        $this->db->join('software_version', 'software_version.ID = software.VERSION_ID');
         $this->db->where('hardware.NAME', $nomPc);
         return $this->db->get()->result_array();
     }

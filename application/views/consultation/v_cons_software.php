@@ -19,10 +19,10 @@
                                 <tbody>
                                     <?php foreach($software as $MySoftware): ?>
                                         <tr>
-                                            <td class="text-start"><?php echo $MySoftware['GUID']?></td>
-                                            <td class="text-start">Windows 10</td>
-                                            <td class="text-start">21H2</td>
-                                            <td class="text-start">Stable version</td>
+                                            <td class="text-start"><?php echo $MySoftware['PUBLISHER']?></td>
+                                            <td class="text-start"><?php echo $MySoftware['NAME']?></td>
+                                            <td class="text-start"><?php echo $MySoftware['VERSION']?></td>
+                                            <td class="text-start"><?php echo $MySoftware['COMMENTS']?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
