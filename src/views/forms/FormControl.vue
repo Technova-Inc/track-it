@@ -1,7 +1,6 @@
 <template>
   <CRow>
     <CCol :xs="12">
-      <DocsComponents href="forms/form-control.html" />
       <CCard class="mb-4">
         <CCardHeader>
           <strong>Vue Form Control</strong>

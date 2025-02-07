@@ -1,7 +1,6 @@
 <template>
   <CRow>
     <CCol :xs="12">
-      <DocsComponents href="components/popover.html" />
       <CCard class="mb-4">
         <CCardHeader>
           <strong>Vue Popovers</strong> <small>Basic example</small>

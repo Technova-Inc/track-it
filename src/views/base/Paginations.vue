@@ -1,7 +1,6 @@
 <template>
   <CRow>
     <CCol :xs="12">
-      <DocsComponents href="components/pagination.html" />
       <CCard class="mb-4">
         <CCardHeader>
           <strong>Vue Pagination</strong>

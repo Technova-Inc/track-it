@@ -1,7 +1,6 @@
 <template>
   <CRow>
     <CCol :xs="12">
-      <DocsComponents href="forms/input-group.html" />
       <CCard class="mb-4">
         <CCardHeader>
           <strong>Vue Input group</strong> <small>Basic example</small>

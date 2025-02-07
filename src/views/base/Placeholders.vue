@@ -5,7 +5,6 @@ import VueImg from '@/assets/images/vue.jpg'
 <template>
   <CRow>
     <CCol :xs="12">
-      <DocsComponents href="components/placeholder.html" />
       <CCard class="mb-4">
         <CCardHeader>
           <strong>Vue Placeholder</strong>

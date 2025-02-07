@@ -1,7 +1,6 @@
 <template>
   <CRow>
     <CCol :xs="12">
-      <DocsComponents href="components/tabs.html" />
       <CCard class="mb-4">
         <CCardHeader>
           <strong>Vue Tabs</strong>
