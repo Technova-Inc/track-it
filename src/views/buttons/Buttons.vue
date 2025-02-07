@@ -1,8 +1,7 @@
 <template>
   <CRow>
     <CCol :xs="12">
-      <DocsComponents href="components/button.html" />
-      <CCard class="mb-4">
+s      <CCard class="mb-4">
         <CCardHeader>
           <strong>Vue Button</strong>
         </CCardHeader>

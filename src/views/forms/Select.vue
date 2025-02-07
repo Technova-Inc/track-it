@@ -1,7 +1,6 @@
 <template>
   <CRow>
     <CCol :xs="12">
-      <DocsComponents href="forms/select.html" />
       <CCard class="mb-4">
         <CCardHeader>
           <strong>Vue Select</strong> <small>Default</small>

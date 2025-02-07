@@ -1,7 +1,6 @@
 <template>
   <CRow>
     <CCol :xs="12">
-      <DocsComponents href="components/tooltip.html" />
       <CCard>
         <CCardHeader>
           <strong>Vue Tooltips</strong> <small>Basic example</small>

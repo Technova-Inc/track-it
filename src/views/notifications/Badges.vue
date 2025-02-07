@@ -1,7 +1,6 @@
 <template>
   <CRow>
     <CCol :xs="12">
-      <DocsComponents href="components/badge.html" />
     </CCol>
     <CCol :lg="6">
       <CCard class="mb-4">

@@ -1,7 +1,6 @@
 <template>
   <CRow>
     <CCol :xs="12">
-      <DocsComponents href="components/spinner.html" />
       <CCard class="mb-4">
         <CCardHeader>
           <strong>Vue Spinner</strong> <small>Border</small>

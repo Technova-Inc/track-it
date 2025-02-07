@@ -1,7 +1,6 @@
 <template>
   <CRow>
     <CCol :xs="12">
-      <DocsComponents href="components/list-group.html" />
       <CCard class="mb-4">
         <CCardHeader>
           <strong>Vue List Group</strong> <small>Basic example</small>

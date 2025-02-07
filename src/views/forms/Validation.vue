@@ -38,7 +38,6 @@ const handleSubmitTooltip01 = (event) => {
 <template>
   <CRow>
     <CCol :xs="12">
-      <DocsComponents href="forms/validation.html" />
       <CCard class="mb-4">
         <CCardHeader> <strong>Validation</strong> <small>Custom styles</small> </CCardHeader>
         <CCardBody>
