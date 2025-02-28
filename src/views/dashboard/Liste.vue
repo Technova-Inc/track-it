@@ -8,7 +8,6 @@
       :items="pcList"
       class="transparent-table"
     >
-      // eslint-disable-next-line vue/valid-v-slot
       <template #item.actions="{ item }">
         <v-btn
           text
