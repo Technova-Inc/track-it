@@ -24,6 +24,24 @@ const routes = [
           import(
             /* webpackChunkName: "consultation" */ '@/views/dashboard/Consultation.vue'
           ),
+      },
+      {
+        path: '/liste',
+        name: 'Liste des pc',
+        component: () =>
+          import(
+            /* webpackChunkName: "liste" */ '@/views/dashboard/Liste.vue'
+          ),
+        children: [
+          {
+            path: 'consultation',
+            name: 'Consultation',
+            component: () =>
+              import(
+                /* webpackChunkName: "consultation" */ '@/views/dashboard/Consultation.vue'
+              ),
+          }
+        ]
       }
     ],
   },
