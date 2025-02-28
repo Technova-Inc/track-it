@@ -6,6 +6,7 @@
     <v-data-table
       :headers="headers"
       :items="pcList"
+      :color="white"
       class="transparent-table"
     >
       <template #item.actions="{ item }">
@@ -41,13 +42,17 @@ export default {
         nom: 'PC-01',
         dernierContact: '2025-02-28',
         dernierInventaire: '2025-02-27'
+      },{
+        nom: 'PC-02',
+        dernierContact: '2025-02-29',
+        dernierInventaire: '2025-02-27'
       }
     ])
     const headers = [
-      { text: 'Nom', value: 'nom' },
-      { text: 'Dernier contact', value: 'dernierContact' },
-      { text: 'Dernier inventaire', value: 'dernierInventaire' },
-      { text: 'Actions', value: 'actions', sortable: false }
+      { title: 'Nom', key: 'nom' },
+      { title: 'Dernier contact', key: 'dernierContact' },
+      { title: 'Dernier inventaire', key: 'dernierInventaire' },
+      { title: '', key: 'actions'}
     ]
 
     const consultPc = (pc) => {
@@ -65,7 +70,11 @@ export default {
 </script>
 
 <style>
-.transparent-table .v-data-table {
-  background-color: #212631 !important;
+.v-data-table.transparent-table {
+  background-color: #1d222b !important;
+  color: white !important;
+}
+.v-data-table.transparent-table:hover {
+  color: white !important;
 }
 </style>
