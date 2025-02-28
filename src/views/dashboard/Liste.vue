@@ -7,7 +7,9 @@
       :headers="headers"
       :items="pcList"
       :color="white"
-      class="transparent-table"
+      items-per-page-text='Nombre de PC par page'
+      :loading=false
+      class="transparent-table border-lg border-primary	"
     >
       <template #item.actions="{ item }">
         <v-btn
@@ -74,7 +76,7 @@ export default {
   background-color: #1d222b !important;
   color: white !important;
 }
-.v-data-table.transparent-table:hover {
-  color: white !important;
+.v-data-table__th:hover {
+  color: #5856d6 !important;
 }
 </style>
