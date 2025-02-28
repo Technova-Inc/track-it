@@ -1,5 +1,5 @@
 <template>
-    <h1 class="text-center">Consultation de {{ nomPc }}</h1>
+    <h1 class="text-center">Consultation de {{ $route.params.id }}</h1>
     <br><br>
     <CContainer>
         <CRow>
