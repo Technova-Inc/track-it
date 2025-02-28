@@ -18,14 +18,6 @@ const routes = [
           ),
       },
       {
-        path: '/consultation',
-        name: 'Consultation',
-        component: () =>
-          import(
-            /* webpackChunkName: "consultation" */ '@/views/dashboard/Consultation.vue'
-          ),
-      },
-      {
         path: '/liste',
         name: 'Liste des pc',
         component: () =>
@@ -34,7 +26,7 @@ const routes = [
           ),
         children: [
           {
-            path: 'consultation',
+            path: 'consultation/:id',
             name: 'Consultation',
             component: () =>
               import(
