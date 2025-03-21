@@ -1,22 +1,9 @@
 <template>
   <div v-if="!isConsultationRoute">
-    <h1 class="text-center">
-      Liste des PC
-    </h1>
-    <v-data-table
-      :headers="headers"
-      :items="pcList"
-      :color="white"
-      class="transparent-table"
-    >
-      <template #item.actions="{ item }">
-        <v-btn
-          text
-          color="primary"
-          @click="consultPc(item)"
-        >
-          Consulter le PC
-        </v-btn>
+    <h1>Liste des PCs</h1>
+    <v-data-table :headers="headers" :items="pcList" :class="tableClass">
+      <template v-slot:item.actions="{ item }">
+        <v-btn @click="consultPc(item)">Consulter</v-btn>
       </template>
     </v-data-table>
   </div>
@@ -25,8 +12,9 @@
 
 <script>
 import { useRoute, useRouter } from 'vue-router'
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { VDataTable, VBtn } from 'vuetify/components'
+import axios from '@/plugins/axios'
 
 export default {
   components: {
@@ -37,44 +25,65 @@ export default {
     const route = useRoute()
     const router = useRouter()
     const isConsultationRoute = computed(() => route.path.includes('consultation'))
-    const pcList = ref([
-      {
-        nom: 'PC-01',
-        dernierContact: '2025-02-28',
-        dernierInventaire: '2025-02-27'
-      },{
-        nom: 'PC-02',
-        dernierContact: '2025-02-29',
-        dernierInventaire: '2025-02-27'
-      }
-    ])
+    const pcList = ref([])
     const headers = [
       { title: 'Nom', key: 'nom' },
       { title: 'Dernier contact', key: 'dernierContact' },
       { title: 'Dernier inventaire', key: 'dernierInventaire' },
       { title: '', key: 'actions'}
     ]
+    const error = ref(null)
+
+    const fetchPcList = async () => {
+      try {
+        const response = await axios.get('/ListPC')
+        pcList.value = response.data.lstpc.map(pc => ({
+          nom: pc.NAME,
+          dernierContact: pc.LASTDATE,
+          dernierInventaire: pc.LASTCOME
+        }))
+      } catch (err) {
+        error.value = `Erreur lors de la récupération des données: ${err.message}`
+        console.error('Erreur lors de la récupération des données:', err)
+      }
+    }
+
+    onMounted(() => {
+      fetchPcList()
+    })
 
     const consultPc = (pc) => {
       router.push(`/liste/consultation/${pc.nom}`)
     }
-
+    // Utilisez le composant Vuetify useTheme pour détecter le thème actuel
+    const tableClass = computed(() => {
+      const urlParams = new URLSearchParams(window.location.href.split('?')[1])
+      return urlParams.get('theme') === 'dark' ? 'dark-table' : 'light-table'
+    })
     return {
       isConsultationRoute,
       pcList,
       headers,
-      consultPc
+      consultPc,
+      error,
+      tableClass
     }
   }
 }
 </script>
 
 <style>
-.v-data-table.transparent-table {
+.dark-table {
   background-color: #1d222b !important;
   color: white !important;
 }
-.v-data-table.transparent-table:hover {
-  color: white !important;
+
+.light-table {
+  background-color: #f3f4f7 !important;
+  color: black !important;
+}
+
+.v-data-table__th:hover {
+  color: #5856d6 !important;
 }
 </style>

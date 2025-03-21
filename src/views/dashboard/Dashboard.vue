@@ -1,6 +1,6 @@
 <script setup>
-import MainChart from './MainChart.vue'
-import WidgetsStatsA from './../widgets/WidgetsStatsTypeA.vue'
+import MainChart from '@/views/statistiques/MainChart.vue'
+import WidgetsStatsA from '@/views/statistiques/WidgetsStatsTypeA.vue'
 </script>
 
 <template>
@@ -12,7 +12,7 @@ import WidgetsStatsA from './../widgets/WidgetsStatsTypeA.vue'
           <CCardBody>
             <CRow>
               <CCol :sm="5">
-                <h4 id="traffic" class="card-title mb-0">Traffic</h4>
+                <h4 id="traffic" class="card-title mb-0">Dernier contact sur 15 jours</h4>
                 <div class="small text-body-secondary">January - July 2023</div>
               </CCol>
               <CCol :sm="7" class="d-none d-md-block">
@@ -52,11 +52,6 @@ import WidgetsStatsA from './../widgets/WidgetsStatsTypeA.vue'
                 <div class="text-body-secondary">New Users</div>
                 <div class="fw-semibold text-truncate">22.123 Users (80%)</div>
                 <CProgress class="mt-2" color="danger" thin :precision="1" :value="80" />
-              </CCol>
-              <CCol class="d-none d-xl-block">
-                <div class="text-body-secondary">Bounce Rate</div>
-                <div class="fw-semibold text-truncate">Average Rate (40.15%)</div>
-                <CProgress class="mt-2" :value="40" thin :precision="1" />
               </CCol>
             </CRow>
           </CCardFooter>
