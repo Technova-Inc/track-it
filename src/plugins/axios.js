@@ -1,37 +1,39 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 
-/** The axios instance */
+// Configuration de l'instance Axios
 const instance = axios.create({
-	withCredentials: false,
-	baseURL: window.API_URL,
-	headers: {
-		'Accept': 'application/json',
-		'Content-Type': 'application/json'
-	}
+    withCredentials: false,
+    baseURL: "https://10.29.126.31/track-it/index.php",
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
 });
-//alert(process.env.VUE_APP_API_URL);
+
 /** Default error message */
 const DEFAULT_ERROR_MESSAGE = 'Une erreur inconnue est survenue';
 
-// Response interceptor to handle errors globally
-instance.interceptors.response.use(undefined, (error) => {
-	let errorMessage;
+// Intercepteur de réponse pour gérer les erreurs globalement
+instance.interceptors.response.use(
+    response => response,
+    error => {
+        let errorMessage;
 
-	// If we don't have an error or we have a 500 HTTP Code
-	if (!error.response || error.response.status >= 500) {
-		// Use the default message
-		errorMessage = DEFAULT_ERROR_MESSAGE;
-	} else {
-		// Else, use message from server or fallback to default one
-		errorMessage = error.response.data.message || DEFAULT_ERROR_MESSAGE;
-	}
+        // Si nous n'avons pas d'erreur ou si nous avons un code HTTP 500
+        if (!error.response || error.response.status >= 500) {
+            // Utilisez le message par défaut
+            errorMessage = DEFAULT_ERROR_MESSAGE;
+        } else {
+            // Sinon, utilisez le message du serveur ou revenez au message par défaut
+            errorMessage = error.response.data.message || DEFAULT_ERROR_MESSAGE;
+        }
 
-	if (errorMessage) {
-        alert(errorMessage);
-	}
+        if (errorMessage) {
+            console.log(errorMessage);
+        }
 
-	return Promise.reject(error);
-});
+        return Promise.reject(error);
+    }
+);
 
-export { instance as axios };
-export { AxiosResponse };
+export default instance;
