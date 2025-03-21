@@ -8,7 +8,7 @@ import avatar from '@/assets/images/avatars/8.jpg'
       <CAvatar :src="avatar" size="md" />
     </CDropdownToggle>
     <CDropdownMenu class="pt-0">
-      <CDropdownDivider />
+      <!--<CDropdownDivider />-->
       <CDropdownItem> <CIcon icon="cil-lock-locked" /> Logout </CDropdownItem>
     </CDropdownMenu>
   </CDropdown>
