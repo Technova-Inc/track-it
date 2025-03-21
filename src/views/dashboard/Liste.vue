@@ -2,8 +2,9 @@
   <div v-if="!isConsultationRoute">
     <h1>Liste des PCs</h1>
     <br>
-    <div :class="mb-4">
+    <div>
       <v-text-field
+        class="mb-4"
         v-model="search"
         label="Rechercher"
         variant="outlined"
@@ -94,7 +95,7 @@ export default {
 
 .light-table {
   background-color: #f3f4f7 !important;
-  color: black !important;
+  color: #1d222b !important;
 }
 
 .v-data-table__th:hover {
