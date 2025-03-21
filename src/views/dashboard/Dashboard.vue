@@ -1,6 +1,6 @@
 <script setup>
-import MainChart from './MainChart.vue'
-import WidgetsStatsA from './../widgets/WidgetsStatsTypeA.vue'
+import MainChart from '@/views/statistiques/MainChart.vue'
+import WidgetsStatsA from '@/views/statistiques/WidgetsStatsTypeA.vue'
 </script>
 
 <template>
