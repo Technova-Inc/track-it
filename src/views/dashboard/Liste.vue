@@ -1,7 +1,18 @@
 <template>
   <div v-if="!isConsultationRoute">
     <h1>Liste des PCs</h1>
-    <v-data-table :headers="headers" :items="pcList" :class="tableClass">
+    <br>
+    <div :class="mb-4">
+      <v-text-field
+        v-model="search"
+        label="Rechercher"
+        variant="outlined"
+        hide-details
+        single-line
+      ></v-text-field>
+      <br>
+    </div>
+    <v-data-table :headers="headers" :items="pcList" :class="tableClass" :search="search">
       <template v-slot:item.actions="{ item }">
         <v-btn @click="consultPc(item)">Consulter</v-btn>
       </template>
@@ -13,15 +24,17 @@
 <script>
 import { useRoute, useRouter } from 'vue-router'
 import { computed, ref, onMounted } from 'vue'
-import { VDataTable, VBtn } from 'vuetify/components'
+import { VDataTable, VBtn, VTextField } from 'vuetify/components'
 import axios from '@/plugins/axios'
 
 export default {
   components: {
     VDataTable,
-    VBtn
+    VBtn,
+    VTextField
   },
   setup() {
+    const search = ref('')
     const route = useRoute()
     const router = useRouter()
     const isConsultationRoute = computed(() => route.path.includes('consultation'))
@@ -66,7 +79,8 @@ export default {
       headers,
       consultPc,
       error,
-      tableClass
+      tableClass,
+      search
     }
   }
 }
