@@ -1,9 +1,13 @@
 <template>
-  <v-data-table :headers="headers" :items="pcList" :class="tableClass">
-    <template v-slot:item.actions="{ item }">
-      <v-btn @click="consultPc(item)">Consulter</v-btn>
-    </template>
-  </v-data-table>
+  <div v-if="!isConsultationRoute">
+    <h1>Liste des PCs</h1>
+    <v-data-table :headers="headers" :items="pcList" :class="tableClass">
+      <template v-slot:item.actions="{ item }">
+        <v-btn @click="consultPc(item)">Consulter</v-btn>
+      </template>
+    </v-data-table>
+  </div>
+  <router-view v-else></router-view>
 </template>
 
 <script>
