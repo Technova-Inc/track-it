@@ -40,11 +40,7 @@ onMounted(() => {
         <template #title>Windows</template>
       </CWidgetStatsA>
     </CCol>
-    <CCol 
-      :sm="6"
-      :xl="4"
-      :xxl="3"
-    >
+    <CCol :sm="6" :xl="4" :xxl="3">
       <CWidgetStatsA color="primary">
         <template #value
           >26K
