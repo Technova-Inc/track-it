@@ -1,7 +1,7 @@
 <template>
   <div v-if="!isConsultationRoute">
     <h1>Liste des PCs</h1>
-    <br>
+    <br />
     <div>
       <v-text-field
         class="mb-4"
@@ -11,7 +11,7 @@
         hide-details
         single-line
       ></v-text-field>
-      <br>
+      <br />
     </div>
     <v-data-table :headers="headers" :items="pcList" :class="tableClass" :search="search">
       <template v-slot:item.actions="{ item }">
@@ -32,7 +32,7 @@ export default {
   components: {
     VDataTable,
     VBtn,
-    VTextField
+    VTextField,
   },
   setup() {
     const search = ref('')
@@ -44,17 +44,17 @@ export default {
       { title: 'Nom', key: 'nom' },
       { title: 'Dernier contact', key: 'dernierContact' },
       { title: 'Dernier inventaire', key: 'dernierInventaire' },
-      { title: '', key: 'actions'}
+      { title: '', key: 'actions' },
     ]
     const error = ref(null)
 
     const fetchPcList = async () => {
       try {
         const response = await axios.get('/ListPC')
-        pcList.value = response.data.lstpc.map(pc => ({
+        pcList.value = response.data.lstpc.map((pc) => ({
           nom: pc.NAME,
           dernierContact: pc.LASTDATE,
-          dernierInventaire: pc.LASTCOME
+          dernierInventaire: pc.LASTCOME,
         }))
       } catch (err) {
         error.value = `Erreur lors de la récupération des données: ${err.message}`
@@ -79,13 +79,14 @@ export default {
       tableClass.value = theme === 'dark' ? 'dark-table' : 'light-table'
     }
 
+    let observer
     const observeThemeChange = () => {
-      const observer = new MutationObserver(() => {
+      observer = new MutationObserver(() => {
         updateTableClass()
       })
       observer.observe(document.documentElement, {
         attributes: true,
-        attributeFilter: ['data-coreui-theme']
+        attributeFilter: ['data-coreui-theme'],
       })
     }
 
@@ -96,9 +97,9 @@ export default {
       consultPc,
       error,
       tableClass,
-      search
+      search,
     }
-  }
+  },
 }
 </script>
 

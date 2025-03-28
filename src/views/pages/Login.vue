@@ -13,10 +13,7 @@
                     <CInputGroupText>
                       <CIcon icon="cil-user" />
                     </CInputGroupText>
-                    <CFormInput
-                      placeholder="Username"
-                      autocomplete="username"
-                    />
+                    <CFormInput placeholder="Username" autocomplete="username" />
                   </CInputGroup>
                   <CInputGroup class="mb-4">
                     <CInputGroupText>
@@ -33,9 +30,7 @@
                       <CButton color="primary" class="px-4"> Login </CButton>
                     </CCol>
                     <CCol :xs="6" class="text-right">
-                      <CButton color="link" class="px-0">
-                        Forgot password?
-                      </CButton>
+                      <CButton color="link" class="px-0"> Forgot password? </CButton>
                     </CCol>
                   </CRow>
                 </CForm>
@@ -46,13 +41,10 @@
                 <div>
                   <h2>Sign up</h2>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua.
                   </p>
-                  <CButton color="light" variant="outline" class="mt-3">
-                    Register Now!
-                  </CButton>
+                  <CButton color="light" variant="outline" class="mt-3"> Register Now! </CButton>
                 </div>
               </CCardBody>
             </CCard>
