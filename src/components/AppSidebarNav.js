@@ -96,11 +96,12 @@ const AppSidebarNav = defineComponent({
                   })
                 : h('span', { class: 'nav-icon' }, h('span', { class: 'nav-icon-bullet' })),
               item.name,
-              item.external && h(resolveComponent('CIcon'), {
-                class: 'ms-2',
-                name: cilExternalLink,
-                size: 'sm'
-              }),
+              item.external &&
+                h(resolveComponent('CIcon'), {
+                  class: 'ms-2',
+                  name: cilExternalLink,
+                  size: 'sm',
+                }),
               item.badge &&
                 h(
                   CBadge,

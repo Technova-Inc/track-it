@@ -25,7 +25,7 @@ const data = {
         random(50, 200),
       ],
       fill: true,
-    }
+    },
   ],
 }
 
