@@ -10,5 +10,5 @@ export default [
     name: 'Liste des ordinateurs',
     to: '/liste',
     icon: 'cil-notes',
-  }
+  },
 ]

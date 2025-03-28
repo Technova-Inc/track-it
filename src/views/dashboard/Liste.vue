@@ -44,17 +44,17 @@ export default {
       { title: 'Nom', key: 'nom' },
       { title: 'Dernier contact', key: 'dernierContact' },
       { title: 'Dernier inventaire', key: 'dernierInventaire' },
-      { title: '', key: 'actions'}
+      { title: '', key: 'actions' },
     ]
     const error = ref(null)
 
     const fetchPcList = async () => {
       try {
         const response = await axios.get('/ListPC')
-        pcList.value = response.data.lstpc.map(pc => ({
+        pcList.value = response.data.lstpc.map((pc) => ({
           nom: pc.NAME,
           dernierContact: pc.LASTDATE,
-          dernierInventaire: pc.LASTCOME
+          dernierInventaire: pc.LASTCOME,
         }))
       } catch (err) {
         error.value = `Erreur lors de la récupération des données: ${err.message}`
@@ -97,8 +97,9 @@ export default {
       error,
       tableClass,
       search
+
     }
-  }
+  },
 }
 </script>
 

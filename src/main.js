@@ -9,7 +9,6 @@ import CIcon from '@coreui/icons-vue'
 import { iconsSet as icons } from '@/assets/icons'
 import 'vuetify/dist/vuetify.min.css';
 
-
 const app = createApp(App)
 app.use(createPinia())
 app.use(router)
