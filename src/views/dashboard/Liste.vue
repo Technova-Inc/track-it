@@ -64,16 +64,31 @@ export default {
 
     onMounted(() => {
       fetchPcList()
+      updateTableClass()
+      observeThemeChange()
     })
 
     const consultPc = (pc) => {
       router.push(`/liste/consultation/${pc.nom}`)
     }
-    // Utilisez le composant Vuetify useTheme pour détecter le thème actuel
-    const tableClass = computed(() => {
-      const urlParams = new URLSearchParams(window.location.href.split('?')[1])
-      return urlParams.get('theme') === 'dark' ? 'dark-table' : 'light-table'
-    })
+
+    const tableClass = ref('')
+
+    const updateTableClass = () => {
+      const theme = document.documentElement.getAttribute('data-coreui-theme')
+      tableClass.value = theme === 'dark' ? 'dark-table' : 'light-table'
+    }
+
+    const observeThemeChange = () => {
+      const observer = new MutationObserver(() => {
+        updateTableClass()
+      })
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-coreui-theme']
+      })
+    }
+
     return {
       isConsultationRoute,
       pcList,
@@ -95,7 +110,7 @@ export default {
 
 .light-table {
   background-color: #f3f4f7 !important;
-  color: #1d222b !important;
+  color: black !important;
 }
 
 .v-data-table__th:hover {
