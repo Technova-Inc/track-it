@@ -1,7 +1,7 @@
 <template>
   <div v-if="!isConsultationRoute">
     <h1>Liste des PCs</h1>
-    <br>
+    <br />
     <div>
       <v-text-field
         class="mb-4"
@@ -11,7 +11,7 @@
         hide-details
         single-line
       ></v-text-field>
-      <br>
+      <br />
     </div>
     <v-data-table :headers="headers" :items="pcList" :class="tableClass" :search="search">
       <template v-slot:item.actions="{ item }">
@@ -32,7 +32,7 @@ export default {
   components: {
     VDataTable,
     VBtn,
-    VTextField
+    VTextField,
   },
   setup() {
     const search = ref('')
@@ -85,7 +85,7 @@ export default {
       })
       observer.observe(document.documentElement, {
         attributes: true,
-        attributeFilter: ['data-coreui-theme']
+        attributeFilter: ['data-coreui-theme'],
       })
     }
 
@@ -96,8 +96,7 @@ export default {
       consultPc,
       error,
       tableClass,
-      search
-
+      search,
     }
   },
 }
