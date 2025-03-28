@@ -13,31 +13,23 @@ const routes = [
         path: '/dashboard',
         name: 'Dashboard',
         component: () =>
-          import(
-            /* webpackChunkName: "dashboard" */ '@/views/dashboard/Dashboard.vue'
-          ),
+          import(/* webpackChunkName: "dashboard" */ '@/views/dashboard/Dashboard.vue'),
       },
       {
         path: '/liste',
         name: 'Liste des pc',
-        component: () =>
-          import(
-            /* webpackChunkName: "liste" */ '@/views/dashboard/Liste.vue'
-          ),
+        component: () => import(/* webpackChunkName: "liste" */ '@/views/dashboard/Liste.vue'),
         children: [
           {
             path: 'consultation/:id',
             name: 'Consultation',
             component: () =>
-              import(
-                /* webpackChunkName: "consultation" */ '@/views/dashboard/Consultation.vue'
-              ),
-          }
-        ]
-      }
+              import(/* webpackChunkName: "consultation" */ '@/views/dashboard/Consultation.vue'),
+          },
+        ],
+      },
     ],
   },
-  
 ]
 
 const router = createRouter({
