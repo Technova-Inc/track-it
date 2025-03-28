@@ -63,9 +63,9 @@ export default {
     }
 
     onMounted(() => {
-      fetchPcList()
-      updateTableClass()
       observeThemeChange()
+      updateTableClass()
+      fetchPcList()
     })
 
     const consultPc = (pc) => {
