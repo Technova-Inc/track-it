@@ -17,7 +17,7 @@ const DEFAULT_ERROR_MESSAGE = 'Une erreur inconnue est survenue';
 instance.interceptors.response.use(
     response => response,
     error => {
-        let errorMessage;
+        let errorMessage = null;
 
         // Si nous n'avons pas d'erreur ou si nous avons un code HTTP 500
         if (!error.response || error.response.status >= 500) {
