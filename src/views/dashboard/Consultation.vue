@@ -99,7 +99,7 @@ const pcId = route.params.id
 // Fetch data from API
 const fetchPcData = async (id) => {
   try {
-    const response = await axios.get(`/Consultation?pc=${pcId}`)
+    const response = await axios.get(`/Consultation?pc=${id}`)
     if (response.data?.pc && response.data.pc.length > 0) {
       pcData.value = response.data.pc[0]
     } else {
