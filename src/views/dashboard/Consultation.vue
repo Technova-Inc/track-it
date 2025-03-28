@@ -100,7 +100,7 @@ const pcId = route.params.id
 const fetchPcData = async (id) => {
   try {
     const response = await axios.get(`/Consultation?pc=${pcId}`)
-    if (response.data && response.data.pc && response.data.pc.length > 0) {
+    if (response.data?.pc && response.data.pc.length > 0) {
       pcData.value = response.data.pc[0]
     } else {
       console.error("Aucune donnée trouvée pour l'ID spécifié")
