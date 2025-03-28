@@ -79,8 +79,9 @@ export default {
       tableClass.value = theme === 'dark' ? 'dark-table' : 'light-table'
     }
 
+    let observer;
     const observeThemeChange = () => {
-      const observer = new MutationObserver(() => {
+      observer = new MutationObserver(() => {
         updateTableClass()
       })
       observer.observe(document.documentElement, {
