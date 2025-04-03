@@ -308,8 +308,8 @@ const widgetStatsE = {
                 <CLink
                   class="fw-semibold font-xs text-body-secondary"
                   href="https://coreui.io/"
-                  rel="noopener norefferer"
                   target="_blank"
+                  rel="noopener norefferer"
                 >
                   View more
                   <CIcon icon="cil-arrow-right" class="ms-auto" width="16" />
@@ -326,8 +326,8 @@ const widgetStatsE = {
                 <CLink
                   class="fw-semibold font-xs text-body-secondary"
                   href="https://coreui.io/"
-                  rel="noopener norefferer"
                   target="_blank"
+                  rel="noopener norefferer"
                 >
                   View more
                   <CIcon icon="cil-arrow-right" class="ms-auto" width="16" />
@@ -344,8 +344,8 @@ const widgetStatsE = {
                 <CLink
                   class="fw-semibold font-xs text-body-secondary"
                   href="https://coreui.io/"
-                  rel="noopener norefferer"
                   target="_blank"
+                  rel="noopener norefferer"
                 >
                   View more
                   <CIcon icon="cil-arrow-right" class="ms-auto" width="16" />
@@ -362,8 +362,8 @@ const widgetStatsE = {
                 <CLink
                   class="fw-semibold font-xs text-body-secondary"
                   href="https://coreui.io/"
-                  rel="noopener norefferer"
                   target="_blank"
+                  rel="noopener norefferer"
                 >
                   View more
                   <CIcon icon="cil-arrow-right" class="ms-auto" width="16" />
