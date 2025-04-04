@@ -37,7 +37,7 @@ const routes = [
             path: 'create',
             name: 'Créer un ticket de support',
             component: () =>
-              import(/* webpackChunkName: "consultation" */ '@/views/support/Create.vue'),
+              import(/* webpackChunkName: "consultation" */ '@/views/support/CreateTicket.vue'),
           },
         ],
       },
