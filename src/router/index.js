@@ -28,6 +28,19 @@ const routes = [
           },
         ],
       },
+      {
+        path: '/support',
+        name: 'Système de support',
+        component: () => import(/* webpackChunkName: "liste" */ '@/views/support/ListeTicket.vue'),
+        children: [
+          {
+            path: 'create',
+            name: 'Créer un ticket de support',
+            component: () =>
+              import(/* webpackChunkName: "consultation" */ '@/views/support/Create.vue'),
+          },
+        ],
+      },
     ],
   },
 ]
