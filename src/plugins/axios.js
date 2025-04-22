@@ -3,7 +3,7 @@ import axios from 'axios'
 // Configuration de l'instance Axios
 const instance = axios.create({
   withCredentials: false,
-  baseURL: 'https://10.29.126.31/track-it/index.php',
+  baseURL: 'https://api-trackit.jouin.bzh/index.php',
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
