@@ -9,10 +9,9 @@
             <CCardTitle class="text-center">Informations système</CCardTitle>
             <CListGroup>
               <CListGroupItem> OS : {{ pcData.OSNAME }} </CListGroupItem>
-              <CListGroupItem> OS Version : {{ pcData.OSVERSION }} </CListGroupItem>
-              <CListGroupItem> Architecture : {{ pcData.ARCH }} </CListGroupItem>
-              <CListGroupItem> Utilisateur windows : {{ pcData.WINOWNER }} </CListGroupItem>
-              <CListGroupItem> Licence windows : {{ pcData.WINPRODID }} </CListGroupItem>
+              <CListGroupItem> Architecture : {{ pcData.ARCHITECTURE }} </CListGroupItem>
+              <CListGroupItem> Utilisateur windows : {{ pcData.USER }} </CListGroupItem>
+              <CListGroupItem> Licence windows : {{ pcData.licensestatus }} </CListGroupItem>
               <CListGroupItem> Clé windows : {{ pcData.WINPRODKEY }} </CListGroupItem>
             </CListGroup>
           </CCardBody>
@@ -22,7 +21,7 @@
           <CCardBody>
             <CCardTitle class="text-center">Hardware</CCardTitle>
             <CListGroup>
-              <CListGroupItem> Swap : {{ pcData.SWAP }} </CListGroupItem>
+              <CListGroupItem> CPU : {{ pcData.CPU }} </CListGroupItem>
               <CListGroupItem> RAM : {{ pcData.MEMORY }} octets </CListGroupItem>
               <CListGroupItem> UUID : {{ pcData.UUID }} </CListGroupItem>
             </CListGroup>
@@ -34,8 +33,9 @@
           <CCardBody>
             <CCardTitle class="text-center">Réseau</CCardTitle>
             <CListGroup>
-              <CListGroupItem> Domaine : {{ pcData.WORKGROUP }} </CListGroupItem>
+              <CListGroupItem> Domaine : {{ pcData.DOMAIN }} </CListGroupItem>
               <CListGroupItem> Adresse IP : {{ pcData.IPADDR }} </CListGroupItem>
+              <CListGroupItem> Adresse MAC : {{ pcData.MAC }} </CListGroupItem>
             </CListGroup>
           </CCardBody>
         </CCard>
@@ -44,7 +44,6 @@
           <CCardBody>
             <CCardTitle class="text-center">Agent</CCardTitle>
             <CListGroup>
-              <CListGroupItem> User agent : {{ pcData.USERAGENT }} </CListGroupItem>
               <CListGroupItem> Dernier inventaire : {{ pcData.LASTDATE }} </CListGroupItem>
               <CListGroupItem> Dernier contact : {{ pcData.LASTCOME }} </CListGroupItem>
             </CListGroup>
@@ -54,7 +53,11 @@
         <CCard>
           <CCardBody>
             <CCardTitle class="text-center">Notes</CCardTitle>
-            <textarea class="form-control" aria-label="Notes"></textarea>
+            <textarea 
+              class="form-control" 
+              aria-label="Notes" 
+              v-model="pcData.NOTE">
+            </textarea>
             <div class="d-grid gap-2 mt-3">
               <button class="btn btn-primary" type="button" @click="saveNotes">Sauvegarder</button>
             </div>
@@ -79,18 +82,22 @@ const props = defineProps({
 const pcData = ref({
   OSNAME: '',
   OSVERSION: '',
-  ARCH: '',
-  WINOWNER: '',
+  ARCHITECTURE: '',
+  USER: '',
   WINPRODID: '',
   WINPRODKEY: '',
   SWAP: '',
   MEMORY: '',
   UUID: '',
-  WORKGROUP: '',
+  DOMAIN: '',
+  CPU: '',
+  MAC: '',
   IPADDR: '',
   USERAGENT: '',
   LASTDATE: '',
   LASTCOME: '',
+  NOTE: '',
+
 })
 
 const route = useRoute()
