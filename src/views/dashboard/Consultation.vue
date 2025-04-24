@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-center">Consultation de {{ pcData.NAME }}</h1>
+  <h1 class="text-center">Consultation de {{ id }}</h1>
   <br /><br />
   <CContainer>
     <CRow>
@@ -10,9 +10,9 @@
             <CListGroup>
               <CListGroupItem> OS : {{ pcData.OSNAME }} </CListGroupItem>
               <CListGroupItem> OS Version : {{ pcData.OSVERSION }} </CListGroupItem>
-              <CListGroupItem> Architecture : {{ pcData.ARCHITECTURE }} </CListGroupItem>
-              <CListGroupItem> Utilisateur windows : {{ pcData.USER }} </CListGroupItem>
-              <CListGroupItem> Licence windows : {{ pcData.licensestatus }} </CListGroupItem>
+              <CListGroupItem> Architecture : {{ pcData.ARCH }} </CListGroupItem>
+              <CListGroupItem> Utilisateur windows : {{ pcData.WINOWNER }} </CListGroupItem>
+              <CListGroupItem> Licence windows : {{ pcData.WINPRODID }} </CListGroupItem>
               <CListGroupItem> Clé windows : {{ pcData.WINPRODKEY }} </CListGroupItem>
             </CListGroup>
           </CCardBody>
@@ -22,7 +22,7 @@
           <CCardBody>
             <CCardTitle class="text-center">Hardware</CCardTitle>
             <CListGroup>
-              <CListGroupItem> CPU : {{ pcData.CPU }} </CListGroupItem>
+              <CListGroupItem> Swap : {{ pcData.SWAP }} </CListGroupItem>
               <CListGroupItem> RAM : {{ pcData.MEMORY }} octets </CListGroupItem>
               <CListGroupItem> UUID : {{ pcData.UUID }} </CListGroupItem>
             </CListGroup>
@@ -79,11 +79,11 @@ const props = defineProps({
 const pcData = ref({
   OSNAME: '',
   OSVERSION: '',
-  ARCHITECTURE: '',
-  USER: '',
+  ARCH: '',
+  WINOWNER: '',
   WINPRODID: '',
   WINPRODKEY: '',
-  CPU: '',
+  SWAP: '',
   MEMORY: '',
   UUID: '',
   WORKGROUP: '',
@@ -99,7 +99,7 @@ const pcId = route.params.id
 // Fetch data from API
 const fetchPcData = async (id) => {
   try {
-    const response = await axios.get(`/Consultation?pc=${pcId}`)
+    const response = await axios.get(`/Consultation?pc=${id}`)
     if (response.data?.pc && response.data.pc.length > 0) {
       pcData.value = response.data.pc[0]
     } else {
@@ -112,7 +112,7 @@ const fetchPcData = async (id) => {
 
 // Fetch data on component mount
 onMounted(() => {
-  fetchPcData(props.id)
+  fetchPcData(pcId)
 })
 
 const saveNotes = () => {
