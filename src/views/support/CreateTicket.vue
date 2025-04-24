@@ -19,7 +19,13 @@
                 </CListGroupItem>
                 <CListGroupItem>
                   <label for="os">Système d'exploitation</label>
-                  <input type="text" id="os" v-model="ticketData.os" class="form-control" readonly />
+                  <input
+                    type="text"
+                    id="os"
+                    v-model="ticketData.os"
+                    class="form-control"
+                    readonly
+                  />
                 </CListGroupItem>
                 <CListGroupItem>
                   <label for="priority">Priorité</label>
@@ -31,11 +37,22 @@
                 </CListGroupItem>
                 <CListGroupItem>
                   <label for="title">Titre</label>
-                  <input type="text" id="title" v-model="ticketData.title" class="form-control" required />
+                  <input
+                    type="text"
+                    id="title"
+                    v-model="ticketData.title"
+                    class="form-control"
+                    required
+                  />
                 </CListGroupItem>
                 <CListGroupItem>
                   <label for="description">Description</label>
-                  <textarea id="description" v-model="ticketData.description" class="form-control" required></textarea>
+                  <textarea
+                    id="description"
+                    v-model="ticketData.description"
+                    class="form-control"
+                    required
+                  ></textarea>
                 </CListGroupItem>
               </CListGroup>
               <div class="d-grid gap-2 mt-3">
@@ -60,39 +77,39 @@ const ticketData = ref({
   os: '',
   priority: '',
   title: '',
-  description: ''
+  description: '',
 })
 
 // Detect OS
 const detectOS = () => {
   // Simple OS detection logic (this can be enhanced)
-  const userAgent = window.navigator.userAgent;
-  let os = 'Unknown OS';
-  
-  if (userAgent.indexOf('Win') !== -1) os = 'Windows';
-  else if (userAgent.indexOf('Mac') !== -1) os = 'MacOS';
-  else if (userAgent.indexOf('Linux') !== -1) os = 'Linux';
-  else if (userAgent.indexOf('Android') !== -1) os = 'Android';
-  else if (userAgent.indexOf('like Mac') !== -1) os = 'iOS';
-  
-  ticketData.value.os = os;
+  const userAgent = window.navigator.userAgent
+  let os = 'Unknown OS'
+
+  if (userAgent.indexOf('Win') !== -1) os = 'Windows'
+  else if (userAgent.indexOf('Mac') !== -1) os = 'MacOS'
+  else if (userAgent.indexOf('Linux') !== -1) os = 'Linux'
+  else if (userAgent.indexOf('Android') !== -1) os = 'Android'
+  else if (userAgent.indexOf('like Mac') !== -1) os = 'iOS'
+
+  ticketData.value.os = os
 }
 
 onMounted(() => {
-  detectOS();
+  detectOS()
 })
 
 const submitTicket = async () => {
   try {
-    const response = await axios.post('/submit-ticket', ticketData.value);
+    const response = await axios.post('/submit-ticket', ticketData.value)
     if (response.status === 200) {
-      alert('Ticket soumis avec succès!');
+      alert('Ticket soumis avec succès!')
     } else {
-      alert('Erreur lors de la soumission du ticket.');
+      alert('Erreur lors de la soumission du ticket.')
     }
   } catch (error) {
-    console.error('Erreur lors de la soumission du ticket:', error);
-    alert('Erreur lors de la soumission du ticket.');
+    console.error('Erreur lors de la soumission du ticket:', error)
+    alert('Erreur lors de la soumission du ticket.')
   }
 }
 </script>

@@ -26,7 +26,7 @@ export default [
         component: 'CNavItem',
         name: 'Vos tickets',
         to: '/support',
-      }
+      },
     ],
   },
   {
@@ -38,8 +38,8 @@ export default [
       {
         component: 'CNavItem',
         name: 'Système de support',
-        to: '/base/accordion',
-      }
+        to: '/admin/support',
+      },
     ],
   },
 ]

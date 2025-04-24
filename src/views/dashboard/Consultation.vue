@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-center">Consultation de {{ id }}</h1>
+  <h1 class="text-center">Consultation de {{ pcData.NAME }}</h1>
   <br /><br />
   <CContainer>
     <CRow>
@@ -10,9 +10,9 @@
             <CListGroup>
               <CListGroupItem> OS : {{ pcData.OSNAME }} </CListGroupItem>
               <CListGroupItem> OS Version : {{ pcData.OSVERSION }} </CListGroupItem>
-              <CListGroupItem> Architecture : {{ pcData.ARCH }} </CListGroupItem>
-              <CListGroupItem> Utilisateur windows : {{ pcData.WINOWNER }} </CListGroupItem>
-              <CListGroupItem> Licence windows : {{ pcData.WINPRODID }} </CListGroupItem>
+              <CListGroupItem> Architecture : {{ pcData.ARCHITECTURE }} </CListGroupItem>
+              <CListGroupItem> Utilisateur windows : {{ pcData.USER }} </CListGroupItem>
+              <CListGroupItem> Licence windows : {{ pcData.licensestatus }} </CListGroupItem>
               <CListGroupItem> Clé windows : {{ pcData.WINPRODKEY }} </CListGroupItem>
             </CListGroup>
           </CCardBody>
@@ -22,7 +22,7 @@
           <CCardBody>
             <CCardTitle class="text-center">Hardware</CCardTitle>
             <CListGroup>
-              <CListGroupItem> Swap : {{ pcData.SWAP }} </CListGroupItem>
+              <CListGroupItem> CPU : {{ pcData.CPU }} </CListGroupItem>
               <CListGroupItem> RAM : {{ pcData.MEMORY }} octets </CListGroupItem>
               <CListGroupItem> UUID : {{ pcData.UUID }} </CListGroupItem>
             </CListGroup>
@@ -79,11 +79,11 @@ const props = defineProps({
 const pcData = ref({
   OSNAME: '',
   OSVERSION: '',
-  ARCH: '',
-  WINOWNER: '',
+  ARCHITECTURE: '',
+  USER: '',
   WINPRODID: '',
   WINPRODKEY: '',
-  SWAP: '',
+  CPU: '',
   MEMORY: '',
   UUID: '',
   WORKGROUP: '',
