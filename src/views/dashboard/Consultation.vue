@@ -112,7 +112,7 @@ const fetchPcData = async (id) => {
 
 // Fetch data on component mount
 onMounted(() => {
-  fetchPcData(props.id)
+  fetchPcData(pcId)
 })
 
 const saveNotes = () => {
