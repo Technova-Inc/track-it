@@ -31,13 +31,19 @@ const routes = [
       {
         path: '/support',
         name: 'Système de support',
-        component: () => import(/* webpackChunkName: "liste" */ '@/views/support/ListeTicket.vue'),
+        component: () => import(/* webpackChunkName: "support" */ '@/views/support/ListeTicket.vue'),
         children: [
           {
             path: 'create',
             name: 'Créer un ticket de support',
             component: () =>
-              import(/* webpackChunkName: "consultation" */ '@/views/support/CreateTicket.vue'),
+              import(/* webpackChunkName: "create-ticket" */ '@/views/support/CreateTicket.vue'),
+          },
+          {
+            path: 'read/:id',
+            name: 'Lire un ticket de support', 
+            component: () =>
+              import(/* webpackChunkName: "read-ticket" */ '@/views/support/ReadTicket.vue'),
           },
         ],
       },

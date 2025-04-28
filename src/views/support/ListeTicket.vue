@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isCreationRoute">
+  <div v-if="!isCreationOrReadRoute">
     <h1>Système de support</h1>
     <br />
     <div>
@@ -44,7 +44,8 @@ export default {
     const search = ref('')
     const route = useRoute()
     const router = useRouter()
-    const isCreationRoute = computed(() => route.path.includes('create'))
+    const isCreationOrReadRoute = computed(() => route.path.includes('create') || route.path.includes('read'))
+    console.log(isCreationOrReadRoute)
     const ticketList = ref([])
     const headers = [
       { title: 'Titre', key: 'titreTicket' },
@@ -61,6 +62,7 @@ export default {
           titreTicket: ticket.titreTicket,
           user: ticket.user,
           Priorité: ticket.Priorite,
+          id: ticket.idTicket, // Assurez-vous que l'ID est récupéré ici
         }))
       } catch (err) {
         error.value = `Erreur lors de la récupération des données: ${err.message}`
@@ -75,8 +77,8 @@ export default {
     })
 
     const consultTicket = (ticket) => {
-      router.push(`/tickets/consultation/${ticket.title}`)
-    }
+  router.push(`/support/read/${ticket.id}`)  // Use `ticket.id` instead of the whole ticket object
+}
 
     const tableClass = ref('')
 
@@ -97,7 +99,7 @@ export default {
     }
 
     return {
-      isCreationRoute,
+      isCreationOrReadRoute,
       ticketList,
       headers,
       consultTicket,
