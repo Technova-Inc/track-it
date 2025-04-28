@@ -7,58 +7,56 @@
         <CCard>
           <CCardBody>
             <CCardTitle class="text-center">Formulaire de création de ticket</CCardTitle>
-            <form @submit.prevent="submitTicket">
-              <CListGroup>
-                <CListGroupItem>
-                  <label for="category">Catégorie</label>
-                  <select id="category" v-model="ticketData.category" class="form-control">
-                    <option value="bug">Bug</option>
-                    <option value="feature">Demande de fonctionnalité</option>
-                    <option value="support">Assistance</option>
-                  </select>
-                </CListGroupItem>
-                <CListGroupItem>
-                  <label for="os">Système d'exploitation</label>
-                  <input
-                    type="text"
-                    id="os"
-                    v-model="ticketData.os"
-                    class="form-control"
-                    readonly
-                  />
-                </CListGroupItem>
-                <CListGroupItem>
-                  <label for="priority">Priorité</label>
-                  <select id="priority" v-model="ticketData.priority" class="form-control">
-                    <option value="low">Faible</option>
-                    <option value="medium">Moyenne</option>
-                    <option value="high">Élevée</option>
-                  </select>
-                </CListGroupItem>
-                <CListGroupItem>
-                  <label for="title">Titre</label>
-                  <input
-                    type="text"
-                    id="title"
-                    v-model="ticketData.title"
-                    class="form-control"
-                    required
-                  />
-                </CListGroupItem>
-                <CListGroupItem>
-                  <label for="description">Description</label>
-                  <textarea
-                    id="description"
-                    v-model="ticketData.description"
-                    class="form-control"
-                    required
-                  ></textarea>
-                </CListGroupItem>
-              </CListGroup>
-              <div class="d-grid gap-2 mt-3">
-                <button class="btn btn-primary" type="submit">Soumettre</button>
-              </div>
-            </form>
+            <CListGroup>
+              <CListGroupItem>
+                <label for="category">Catégorie</label>
+                <select id="category" v-model="ticketData.category" class="form-control">
+                  <option value="bug">Bug</option>
+                  <option value="feature">Demande de fonctionnalité</option>
+                  <option value="support">Assistance</option>
+                </select>
+              </CListGroupItem>
+              <CListGroupItem>
+                <label for="os">Système d'exploitation</label>
+                <input
+                  type="text"
+                  id="os"
+                  v-model="ticketData.os"
+                  class="form-control"
+                  readonly
+                />
+              </CListGroupItem>
+              <CListGroupItem>
+                <label for="priority">Priorité</label>
+                <select id="priority" v-model="ticketData.priority" class="form-control">
+                  <option value="low">Faible</option>
+                  <option value="medium">Moyenne</option>
+                  <option value="high">Élevée</option>
+                </select>
+              </CListGroupItem>
+              <CListGroupItem>
+                <label for="title">Titre</label>
+                <input
+                  type="text"
+                  id="title"
+                  v-model="ticketData.title"
+                  class="form-control"
+                  required
+                />
+              </CListGroupItem>
+              <CListGroupItem>
+                <label for="description">Description</label>
+                <textarea
+                  id="description"
+                  v-model="ticketData.description"
+                  class="form-control"
+                  required
+                ></textarea>
+              </CListGroupItem>
+            </CListGroup>
+            <div class="d-grid gap-2 mt-3">
+              <button class="btn btn-primary" type="button" @click="submitTicket">Soumettre</button>
+            </div>
           </CCardBody>
         </CCard>
       </CCol>
@@ -66,12 +64,13 @@
   </CContainer>
 </template>
 
+
 <script setup>
 import { CRow, CCol, CCard, CCardBody, CCardTitle, CListGroup, CListGroupItem } from '@coreui/vue'
 import { ref, onMounted } from 'vue'
 import axios from '@/plugins/axios'
 
-// Define reactive data properties
+// Define reactive data properties for ticket
 const ticketData = ref({
   category: '',
   os: '',
@@ -99,10 +98,22 @@ onMounted(() => {
   detectOS()
 })
 
+// Submit ticket method (similar to saveNotes for Notes)
 const submitTicket = async () => {
   try {
-    const response = await axios.post('/submit-ticket', ticketData.value)
-    if (response.status === 200) {
+    const response = await axios.post('https://10.29.128.180/apisimple/submit_ticket.php', {
+      category: ticketData.value.category,
+      os: ticketData.value.os,
+      priority: ticketData.value.priority,
+      title: ticketData.value.title,
+      description: ticketData.value.description,
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    
+    if (response.data.success) {
       alert('Ticket soumis avec succès!')
     } else {
       alert('Erreur lors de la soumission du ticket.')
@@ -113,3 +124,4 @@ const submitTicket = async () => {
   }
 }
 </script>
+

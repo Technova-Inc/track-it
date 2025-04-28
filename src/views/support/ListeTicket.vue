@@ -47,20 +47,20 @@ export default {
     const isCreationRoute = computed(() => route.path.includes('create'))
     const ticketList = ref([])
     const headers = [
-      { title: 'Titre', key: 'title' },
-      { title: 'Date de création', key: 'creationDate' },
-      { title: 'Statut', key: 'status' },
+      { title: 'Titre', key: 'titreTicket' },
+      { title: 'Utilisateur', key: 'user' },
+      { title: 'Priorité', key: 'Priorité' },
       { title: '', key: 'actions' },
     ]
     const error = ref(null)
 
     const fetchTicketList = async () => {
       try {
-        const response = await axios.get('/ListTickets')
+        const response = await axios.get('https://10.29.128.180/apisimple/consult_tickets.php')
         ticketList.value = response.data.tickets.map((ticket) => ({
-          title: ticket.title,
-          creationDate: ticket.creationDate,
-          status: ticket.status,
+          titreTicket: ticket.titreTicket,
+          user: ticket.user,
+          Priorité: ticket.Priorite,
         }))
       } catch (err) {
         error.value = `Erreur lors de la récupération des données: ${err.message}`

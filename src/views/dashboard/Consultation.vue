@@ -122,8 +122,26 @@ onMounted(() => {
   fetchPcData(pcId)
 })
 
-const saveNotes = () => {
-  // Your save notes logic here
+const saveNotes = async () => {
+  try {
+    const response = await axios.post('https://10.29.128.180/apisimple/consult_notes.php', {
+      pc: pcId,          
+      note: note.value   
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    if (response.data.success) {
+      alert('Note sauvegardée avec succès.')
+    } else {
+      alert('Erreur lors de la sauvegarde de la note.')
+    }
+  } catch (error) {
+    console.error('Erreur lors de la sauvegarde de la note:', error)
+    alert('Erreur serveur lors de la sauvegarde de la note.')
+  }
 }
 </script>
 <style>
