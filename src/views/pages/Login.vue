@@ -64,6 +64,8 @@
 </template>
 
 <script>
+import axios from '@/plugins/axios';
+
 export default {
   data() {
     return {
@@ -77,26 +79,21 @@ export default {
   methods: {
     async handleLogin() {
       try {
-        const response = await fetch('https://10.29.123.50/trackit-simple/Connexion/authentification.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(this.formData)
-        });
+        const response = await axios.post('/Connexion/authentification.php', this.formData);
 
-        if (!response.ok) {
-          throw new Error('Nom d’utilisateur ou mot de passe incorrect.');
+        // Vérifiez le succès de la réponse
+        if (response.data && response.data.message === "Connexion réussie") {
+          // Stockez les informations utilisateur dans le localStorage
+          localStorage.setItem('user', JSON.stringify(response.data.user));
+
+          // Redirigez l'utilisateur après la connexion
+          this.$router.push('/dashboard');
+        } else {
+          throw new Error(response.data.message || 'Erreur de connexion.');
         }
-
-        const data = await response.json();
-        // Stockez le token dans le localStorage ou Vuex
-        localStorage.setItem('token', data.token);
-
-        // Redirigez l'utilisateur après la connexion
-        this.$router.push('/dashboard');
       } catch (error) {
-        this.errorMessage = error.message;
+        // Gérer les erreurs (axios renvoie un objet d'erreur détaillé)
+        this.errorMessage = error.response?.data?.message || error.message || 'Une erreur est survenue.';
       }
     }
   }
