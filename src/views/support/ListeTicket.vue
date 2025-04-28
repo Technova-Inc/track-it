@@ -11,6 +11,19 @@
         hide-details
         single-line
       ></v-text-field>
+
+      <v-btn
+        class="mb-4"
+        size="small"
+        variant="text"
+        color="primary"
+        @click="showClosed = !showClosed"
+      >
+        {{ showClosed ? 'Cacher les tickets fermés' : 'Afficher les tickets fermés' }}
+      </v-btn>
+      
+      <br />
+
       <br />
     </div>
     <v-data-table
