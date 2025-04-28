@@ -116,7 +116,8 @@ export default {
 
     const statuses = ref([])
     const newResponseMessage = ref('') 
-    const userId = 1; // Assurez-vous que l'ID utilisateur est bien dynamique
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user.id; // Utilisez l'id de l'utilisateur
 
     // --- Récupérer les informations du ticket ---
     const fetchTicketData = async () => {
