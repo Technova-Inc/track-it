@@ -62,11 +62,12 @@
         <div class="d-grid gap-2 mt-3">
           <button class="btn btn-primary text-white" type="button" @click="saveNotes">Fermer Ticket</button>
           <button class="btn btn-success mt-2 text-white" @click="saveTickets">Sauvegarder Modification</button>
-
         </div>
       </CCol>
     </CRow>
   </CContainer>
+  
+  <!-- Affichage des réponses du ticket -->
   <CContainer class="mt-5">
     <CCard>
       <CCardBody>
@@ -77,11 +78,11 @@
             <div class="text-muted small">{{ response.DatePublication }}</div>
           </CListGroupItem>
         </CListGroup>
- <!-- Ajouter une réponse -->
+
+        <!-- Ajouter une réponse -->
         <div class="mt-4">
           <textarea v-model="newResponseMessage" class="form-control" rows="3" placeholder="Écrire une réponse..."></textarea>
           <button class="btn btn-success mt-2 text-white" @click="sendResponse">Envoyer</button>
-
         </div>
       </CCardBody>
     </CCard>
@@ -115,8 +116,9 @@ export default {
 
     const statuses = ref([])
     const newResponseMessage = ref('') 
-    const userId = 1; 
-    
+    const userId = 1; // Assurez-vous que l'ID utilisateur est bien dynamique
+
+    // --- Récupérer les informations du ticket ---
     const fetchTicketData = async () => {
       try {
         const response = await axios.get(`/Support/consult_tickets.php?id=${ticketId}`)
@@ -131,7 +133,6 @@ export default {
             status: response.data.ticket.idstatus,
             createdate: response.data.ticket.createDate,
             updatedate: response.data.ticket.UpdateDate
-            
           }
           ticketResponses.value = response.data.ticket.reponses || []
         } else {
@@ -142,39 +143,7 @@ export default {
       }
     }
 
-    const fetchStatuses = async () => {
-      try {
-        const response = await axios.get('/Support/Get_details.php')
-        if (response.data?.statuses) {
-          statuses.value = response.data.statuses
-        } else {
-          console.error('Erreur statuts')
-        }
-      } catch (error) {
-        console.error('Erreur statuts :', error)
-      }
-    }
-
-    const saveTickets = async () => {
-      try {
-        const response = await axios.post('/Support/update_ticket.php', {
-          idTicket: ticketData.value.idTicket,
-          priorite: ticketData.value.priorite,
-          status: ticketData.value.status
-        })
-
-        if (response.data?.success) {
-          alert('Modifications sauvegardées avec succès.')
-          fetchTicketData()
-        } else {
-          alert('Erreur sauvegarde.')
-        }
-      } catch (error) {
-        console.error('Erreur sauvegarde :', error)
-        alert('Erreur connexion serveur.')
-      }
-    }
-
+    // --- Enregistrer les réponses ---
     const sendResponse = async () => {
       if (!newResponseMessage.value.trim()) {
         alert('Veuillez écrire un message avant d\'envoyer.')
@@ -189,23 +158,21 @@ export default {
         })
 
         if (response.data?.success) {
-          alert('Commentaire envoyé avec succès.')
+          alert('Réponse envoyée avec succès.')
           newResponseMessage.value = '' // Reset champ
+          fetchTicketData() // Recharge les réponses
         } else {
-          alert('Erreur envoi du commentaire.')
+          alert('Erreur envoi de la réponse.')
         }
       } catch (error) {
-        console.error('Erreur envoi commentaire :', error)
+        console.error('Erreur envoi de la réponse :', error)
         alert('Erreur serveur.')
       }
     }
 
-    
-
     // --- Au montage ---
     onMounted(() => {
       fetchTicketData()
-      fetchStatuses()
     })
 
     return {
@@ -213,7 +180,6 @@ export default {
       ticketResponses,
       statuses,
       newResponseMessage,
-      saveTickets,
       sendResponse
     }
   }
