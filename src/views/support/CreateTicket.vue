@@ -11,7 +11,7 @@
               <CListGroupItem>
                 <label for="category">Catégorie</label>
                 <select id="category" v-model="ticketData.category" class="form-control">
-                  <option v-for="category in categories" :key="category.idCategorie" :value="category.idCategorie">
+                  <option v-for="category in categories" :key="category.idCategorie" :value="category.libelleCategorie">
                     {{ category.libelleCategorie }}
                   </option>
                 </select>
