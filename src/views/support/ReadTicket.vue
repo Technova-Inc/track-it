@@ -73,8 +73,8 @@
         <CCardTitle class="text-center">Réponses au Ticket</CCardTitle>
         <CListGroup>
           <CListGroupItem v-for="(response, index) in ticketResponses" :key="index">
-            <strong>{{ response.author }} :</strong> {{ response.message }}
-            <div class="text-muted small">{{ response.date }}</div>
+            <strong>{{ response.userLogin }} :</strong> {{ response.commentaire }}
+            <div class="text-muted small">{{ response.DatePublication }}</div>
           </CListGroupItem>
         </CListGroup>
  <!-- Ajouter une réponse -->
@@ -131,7 +131,9 @@ export default {
             status: response.data.ticket.idstatus,
             createdate: response.data.ticket.createDate,
             updatedate: response.data.ticket.UpdateDate
+            
           }
+          ticketResponses.value = response.data.ticket.reponses || []
         } else {
           console.error('Aucune donnée trouvée pour cet ID')
         }
@@ -182,42 +184,28 @@ export default {
       try {
         const response = await axios.post('/Support/submit_response.php', {
           idTicket: ticketData.value.idTicket,
-          idUser: userId,
-          message: newResponseMessage.value.trim()
+          idUser: userId, // ici bien idUser
+          commentaire: newResponseMessage.value.trim() // ici bien commentaire
         })
 
         if (response.data?.success) {
-          alert('Réponse envoyée avec succès.')
-          newResponseMessage.value = '' // Reset le champ
-          fetchTicketResponses() // Recharge la liste des réponses
+          alert('Commentaire envoyé avec succès.')
+          newResponseMessage.value = '' // Reset champ
         } else {
-          alert('Erreur envoi réponse.')
+          alert('Erreur envoi du commentaire.')
         }
       } catch (error) {
-        console.error('Erreur envoi réponse :', error)
+        console.error('Erreur envoi commentaire :', error)
         alert('Erreur serveur.')
       }
     }
 
-    // --- Récupérer les réponses au ticket ---
-    const fetchTicketResponses = async () => {
-      try {
-        const response = await axios.get(`/Support/get_reponses_ticket.php?id=${ticketId}`)
-        if (response.data?.responses) {
-          ticketResponses.value = response.data.responses
-        } else {
-          ticketResponses.value = []
-        }
-      } catch (error) {
-        console.error('Erreur récupération réponses:', error)
-      }
-    }
+    
 
     // --- Au montage ---
     onMounted(() => {
       fetchTicketData()
       fetchStatuses()
-      fetchTicketResponses()
     })
 
     return {
