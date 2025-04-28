@@ -97,7 +97,7 @@ import axios from '@/plugins/axios'
 export default {
   setup() {
     const route = useRoute()
-    const ticketId = route.params.id // Retrieve ticket ID from the route
+    const ticketId = route.params.id // ID du ticket
 
     const ticketData = ref({
       idTicket: '',
@@ -111,22 +111,12 @@ export default {
       updatedate: ''
     })
 
-    const ticketResponses = ref([
-      {
-        author: 'Agent Support',
-        message: 'Nous avons bien reçu votre demande et travaillons dessus.',
-        date: '2025-04-26 14:30'
-      },
-      {
-        author: 'Utilisateur',
-        message: 'Merci pour votre retour rapide.',
-        date: '2025-04-26 15:00'
-      }
-    ])
+    const ticketResponses = ref([])
 
     const statuses = ref([])
-
-    // Fetch ticket data
+    const newResponseMessage = ref('') 
+    const userId = 1; 
+    
     const fetchTicketData = async () => {
       try {
         const response = await axios.get(`/Support/consult_tickets.php?id=${ticketId}`)
@@ -143,37 +133,100 @@ export default {
             updatedate: response.data.ticket.UpdateDate
           }
         } else {
-          console.error('Aucune donnée trouvée pour l\'ID spécifié')
+          console.error('Aucune donnée trouvée pour cet ID')
         }
       } catch (error) {
-        console.error('Erreur lors de la récupération des données:', error)
+        console.error('Erreur ticket :', error)
       }
     }
 
-    // Fetch statuses
     const fetchStatuses = async () => {
       try {
         const response = await axios.get('/Support/Get_details.php')
         if (response.data?.statuses) {
           statuses.value = response.data.statuses
         } else {
-          console.error('Erreur lors de la récupération des statuts.')
+          console.error('Erreur statuts')
         }
       } catch (error) {
-        console.error('Erreur lors de la récupération des statuts:', error)
+        console.error('Erreur statuts :', error)
       }
     }
 
-    // Fetch ticket data and statuses on component mount
+    const saveTickets = async () => {
+      try {
+        const response = await axios.post('/Support/update_ticket.php', {
+          idTicket: ticketData.value.idTicket,
+          priorite: ticketData.value.priorite,
+          status: ticketData.value.status
+        })
+
+        if (response.data?.success) {
+          alert('Modifications sauvegardées avec succès.')
+          fetchTicketData()
+        } else {
+          alert('Erreur sauvegarde.')
+        }
+      } catch (error) {
+        console.error('Erreur sauvegarde :', error)
+        alert('Erreur connexion serveur.')
+      }
+    }
+
+    const sendResponse = async () => {
+      if (!newResponseMessage.value.trim()) {
+        alert('Veuillez écrire un message avant d\'envoyer.')
+        return
+      }
+
+      try {
+        const response = await axios.post('/Support/submit_response.php', {
+          idTicket: ticketData.value.idTicket,
+          idUser: userId,
+          message: newResponseMessage.value.trim()
+        })
+
+        if (response.data?.success) {
+          alert('Réponse envoyée avec succès.')
+          newResponseMessage.value = '' // Reset le champ
+          fetchTicketResponses() // Recharge la liste des réponses
+        } else {
+          alert('Erreur envoi réponse.')
+        }
+      } catch (error) {
+        console.error('Erreur envoi réponse :', error)
+        alert('Erreur serveur.')
+      }
+    }
+
+    // --- Récupérer les réponses au ticket ---
+    const fetchTicketResponses = async () => {
+      try {
+        const response = await axios.get(`/Support/get_reponses_ticket.php?id=${ticketId}`)
+        if (response.data?.responses) {
+          ticketResponses.value = response.data.responses
+        } else {
+          ticketResponses.value = []
+        }
+      } catch (error) {
+        console.error('Erreur récupération réponses:', error)
+      }
+    }
+
+    // --- Au montage ---
     onMounted(() => {
       fetchTicketData()
       fetchStatuses()
+      fetchTicketResponses()
     })
 
     return {
       ticketData,
       ticketResponses,
-      statuses
+      statuses,
+      newResponseMessage,
+      saveTickets,
+      sendResponse
     }
   }
 }
