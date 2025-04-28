@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-center">Consultation de {{ id }}</h1>
+  <h1 class="text-center">Consultation de {{ pcId }}</h1>
   <br /><br />
   <CContainer>
     <CRow>
@@ -124,7 +124,7 @@ onMounted(() => {
 
 const saveNotes = async () => {
   try {
-    const response = await axios.post('https://10.29.128.180/apisimple/consult_notes.php', {
+    const response = await axios.post('/Pc/consult_notes.php', {
       pc: pcId,          
       note: note.value   
     }, {
