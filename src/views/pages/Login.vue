@@ -6,30 +6,40 @@
           <CCardGroup>
             <CCard class="p-4">
               <CCardBody>
-                <CForm>
+                <CForm @submit.prevent="handleLogin">
                   <h1>Connexion</h1>
-                  <p class="text-body-secondary">Connectez vous à votre compte</p>
+                  <p class="text-body-secondary">Connectez-vous à votre compte</p>
                   <CInputGroup class="mb-3">
                     <CInputGroupText>
                       <CIcon icon="cil-user" />
                     </CInputGroupText>
-                    <CFormInput placeholder="Nom d'utilisateur" autocomplete="username" />
+                    <CFormInput
+                      v-model="formData.username"
+                      placeholder="Nom d'utilisateur"
+                      autocomplete="username"
+                      required
+                    />
                   </CInputGroup>
                   <CInputGroup class="mb-4">
                     <CInputGroupText>
                       <CIcon icon="cil-lock-locked" />
                     </CInputGroupText>
                     <CFormInput
+                      v-model="formData.password"
                       type="password"
                       placeholder="Mot de passe"
                       autocomplete="current-password"
+                      required
                     />
                   </CInputGroup>
                   <CRow>
                     <CCol :xs="6">
-                      <CButton color="primary text-white" class="px-4"> Se connecter </CButton>
+                      <CButton type="submit" color="primary" class="px-4 text-white">
+                        Se connecter
+                      </CButton>
                     </CCol>
                   </CRow>
+                  <p v-if="errorMessage" class="text-danger mt-3">{{ errorMessage }}</p>
                 </CForm>
               </CCardBody>
             </CCard>
@@ -40,7 +50,9 @@
                   <p>
                     Vous pouvez créer un compte utilisateur pour accéder au système de support.
                   </p>
-                  <CButton color="light" variant="outline" class="mt-3" disabled> Créer votre compte! </CButton>
+                  <CButton color="light" variant="outline" class="mt-3" disabled>
+                    Créer votre compte!
+                  </CButton>
                 </div>
               </CCardBody>
             </CCard>
@@ -50,3 +62,47 @@
     </CContainer>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      formData: {
+        username: '',
+        password: ''
+      },
+      errorMessage: null
+    };
+  },
+  methods: {
+    async handleLogin() {
+      try {
+        const response = await fetch('https://10.29.123.50/trackit-simple/Connexion/authentification.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.formData)
+        });
+
+        if (!response.ok) {
+          throw new Error('Nom d’utilisateur ou mot de passe incorrect.');
+        }
+
+        const data = await response.json();
+        // Stockez le token dans le localStorage ou Vuex
+        localStorage.setItem('token', data.token);
+
+        // Redirigez l'utilisateur après la connexion
+        this.$router.push('/dashboard');
+      } catch (error) {
+        this.errorMessage = error.message;
+      }
+    }
+  }
+};
+</script>
+
+<style scoped>
+/* Ajoutez vos styles ici si nécessaire */
+</style>
