@@ -41,12 +41,12 @@ const routes = [
           },
           {
             path: 'read/:id',
-            name: 'Lire un ticket de support',
+            name: 'Details du ticket',
             component: () =>
               import(/* webpackChunkName: "read-ticket" */ '@/views/support/ReadTicket.vue'),
           },
         ],
-      },
+      },  
     ],
   },
   {
