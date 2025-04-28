@@ -70,7 +70,7 @@ export default {
 
     const fetchTicketList = async () => {
       try {
-        const response = await axios.get('https://10.29.128.180/apisimple/consult_tickets.php')
+        const response = await axios.get('/Support/consult_tickets.php')
         ticketList.value = response.data.tickets.map((ticket) => ({
           titreTicket: ticket.titreTicket,
           user: ticket.user,

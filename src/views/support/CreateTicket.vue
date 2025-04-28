@@ -11,9 +11,9 @@
               <CListGroupItem>
                 <label for="category">Catégorie</label>
                 <select id="category" v-model="ticketData.category" class="form-control">
-                  <option value="bug">Bug</option>
-                  <option value="feature">Demande de fonctionnalité</option>
-                  <option value="support">Assistance</option>
+                  <option v-for="category in categories" :key="category.idCategorie" :value="category.idCategorie">
+                    {{ category.libelleCategorie }}
+                  </option>
                 </select>
               </CListGroupItem>
               <CListGroupItem>
@@ -64,13 +64,12 @@
   </CContainer>
 </template>
 
-
 <script setup>
-import { CRow, CCol, CCard, CCardBody, CCardTitle, CListGroup, CListGroupItem } from '@coreui/vue'
 import { ref, onMounted } from 'vue'
+import { CRow, CCol, CCard, CCardBody, CCardTitle, CListGroup, CListGroupItem } from '@coreui/vue'
 import axios from '@/plugins/axios'
 
-// Define reactive data properties for ticket
+// Define reactive data properties for ticket and categories
 const ticketData = ref({
   category: '',
   os: '',
@@ -79,9 +78,10 @@ const ticketData = ref({
   description: '',
 })
 
+const categories = ref([])
+
 // Detect OS
 const detectOS = () => {
-  // Simple OS detection logic (this can be enhanced)
   const userAgent = window.navigator.userAgent
   let os = 'Unknown OS'
 
@@ -94,14 +94,25 @@ const detectOS = () => {
   ticketData.value.os = os
 }
 
-onMounted(() => {
-  detectOS()
-})
+// Fetch categories from the API
+const fetchCategories = async () => {
+  try {
+    const response = await axios.get('/Support/Get_details.php')
+    if (response.data.categories) {
+      categories.value = response.data.categories
+    } else {
+      alert('Erreur lors de la récupération des catégories.')
+    }
+  } catch (error) {
+    console.error('Erreur lors de la récupération des catégories:', error)
+    alert('Erreur lors de la récupération des catégories.')
+  }
+}
 
-// Submit ticket method (similar to saveNotes for Notes)
+// Submit ticket
 const submitTicket = async () => {
   try {
-    const response = await axios.post('https://10.29.128.180/apisimple/submit_ticket.php', {
+    const response = await axios.post('/Support/submit_ticket.php', {
       category: ticketData.value.category,
       os: ticketData.value.os,
       priority: ticketData.value.priority,
@@ -123,5 +134,10 @@ const submitTicket = async () => {
     alert('Erreur lors de la soumission du ticket.')
   }
 }
-</script>
 
+// On component mount, detect OS and fetch categories
+onMounted(() => {
+  detectOS()
+  fetchCategories()
+})
+</script>

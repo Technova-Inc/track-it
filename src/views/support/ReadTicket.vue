@@ -51,38 +51,37 @@
               <CListGroupItem>
                 Statut :
                 <select v-model="ticketData.status" class="form-control mt-2">
-                  <option value="0">Ouvert</option>
-                  <option value="1">En cours</option>
-                  <option value="2">Fermé</option>
+                  <option v-for="status in statuses" :key="status.idstatus" :value="status.idstatus">
+                    {{ status.libellestatus }}
+                  </option>
                 </select>
               </CListGroupItem>
             </CListGroup>
           </CCardBody>
         </CCard>
         <div class="d-grid gap-2 mt-3">
-              <button class="btn btn-primary text-white" type="button" @click="saveNotes">Fermer Ticket</button>
-            </div>
+          <button class="btn btn-primary text-white" type="button" @click="saveNotes">Fermer Ticket</button>
+        </div>
       </CCol>
-      
     </CRow>
   </CContainer>
   <CContainer class="mt-5">
-  <CCard>
-    <CCardBody>
-      <CCardTitle class="text-center">Réponses au Ticket</CCardTitle>
-      <CListGroup>
-        <CListGroupItem v-for="(response, index) in ticketResponses" :key="index">
-          <strong>{{ response.author }} :</strong> {{ response.message }}
-          <div class="text-muted small">{{ response.date }}</div>
-        </CListGroupItem>
-      </CListGroup>
-    </CCardBody>
-  </CCard>
-</CContainer>
-<br />
+    <CCard>
+      <CCardBody>
+        <CCardTitle class="text-center">Réponses au Ticket</CCardTitle>
+        <CListGroup>
+          <CListGroupItem v-for="(response, index) in ticketResponses" :key="index">
+            <strong>{{ response.author }} :</strong> {{ response.message }}
+            <div class="text-muted small">{{ response.date }}</div>
+          </CListGroupItem>
+        </CListGroup>
+      </CCardBody>
+    </CCard>
+  </CContainer>
+  <br />
 </template>
-  
-  <script>
+
+<script>
 import { CRow, CCol, CCard, CCardBody, CCardTitle, CListGroup, CListGroupItem } from '@coreui/vue'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
@@ -91,9 +90,7 @@ import axios from '@/plugins/axios'
 export default {
   setup() {
     const route = useRoute()
-    const ticketId = route.params.id  // Retrieve ticket ID from the route
-    console.log('Ticket ID:', ticketId); // Vérifie l'ID du ticket
-
+    const ticketId = route.params.id // Retrieve ticket ID from the route
 
     const ticketData = ref({
       idTicket: '',
@@ -101,67 +98,75 @@ export default {
       descriptionTicket: '',
       categorie: '',
       user: '',
-      priorite: '',  // Corrected property name to match the v-model
-      status: '',    // Corrected property name to match the v-model
+      priorite: '',
+      status: '',
       createdate: '',
       updatedate: ''
     })
 
     const ticketResponses = ref([
-  {
-    author: 'Agent Support',
-    message: 'Nous avons bien reçu votre demande et travaillons dessus.',
-    date: '2025-04-26 14:30'
-  },
-  {
-    author: 'Utilisateur',
-    message: 'Merci pour votre retour rapide.',
-    date: '2025-04-26 15:00'
-  },
-  {
-    author: 'Utilisateur',
-    message: 'Merci pour votre retour rapide.',
-    date: '2025-04-26 15:00'
-  },
-  {
-    author: 'Utilisateur',
-    message: 'Merci pour votre retour rapide.',
-    date: '2025-04-26 15:00'
-  }
-])
-
-    const fetchTicketData = async () => {
-  try {
-    const response = await axios.get(`https://10.29.128.180/apisimple/Support/consult_tickets.php?id=${ticketId}`)
-    console.log(response); // Vérifie la réponse de l'API
-    if (response.data?.ticket) {
-      // Mappe correctement les données reçues
-      ticketData.value = {
-        idTicket: response.data.ticket.idTicket,
-        titreTicket: response.data.ticket.titreTicket,
-        descriptionTicket: response.data.ticket.descriptionTicket,
-        categorie: response.data.ticket.libelleCategorie,  // Correspond à "libelleCategorie"
-        user: response.data.ticket.user,
-        Priorite: response.data.ticket.Priorite,
-        status: response.data.ticket.idstatus,  // Ou adapte pour "status" si tu veux un libellé plus explicite
-        createdate: response.data.ticket.createDate,  // Correspond à "createDate"
-        updatedate: response.data.ticket.UpdateDate,  // Correspond à "UpdateDate"
+      {
+        author: 'Agent Support',
+        message: 'Nous avons bien reçu votre demande et travaillons dessus.',
+        date: '2025-04-26 14:30'
+      },
+      {
+        author: 'Utilisateur',
+        message: 'Merci pour votre retour rapide.',
+        date: '2025-04-26 15:00'
       }
-    } else {
-      console.error("Aucune donnée trouvée pour l'ID spécifié")
+    ])
+
+    const statuses = ref([])
+
+    // Fetch ticket data
+    const fetchTicketData = async () => {
+      try {
+        const response = await axios.get(`/Support/consult_tickets.php?id=${ticketId}`)
+        if (response.data?.ticket) {
+          ticketData.value = {
+            idTicket: response.data.ticket.idTicket,
+            titreTicket: response.data.ticket.titreTicket,
+            descriptionTicket: response.data.ticket.descriptionTicket,
+            categorie: response.data.ticket.libelleCategorie,
+            user: response.data.ticket.user,
+            priorite: response.data.ticket.Priorite,
+            status: response.data.ticket.idstatus,
+            createdate: response.data.ticket.createDate,
+            updatedate: response.data.ticket.UpdateDate
+          }
+        } else {
+          console.error('Aucune donnée trouvée pour l\'ID spécifié')
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération des données:', error)
+      }
     }
-  } catch (error) {
-    console.error('Erreur lors de la récupération des données:', error)
-  }
-}
-    // Fetch ticket data on component mount
+
+    // Fetch statuses
+    const fetchStatuses = async () => {
+      try {
+        const response = await axios.get('/Support/Get_details.php')
+        if (response.data?.statuses) {
+          statuses.value = response.data.statuses
+        } else {
+          console.error('Erreur lors de la récupération des statuts.')
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération des statuts:', error)
+      }
+    }
+
+    // Fetch ticket data and statuses on component mount
     onMounted(() => {
       fetchTicketData()
+      fetchStatuses()
     })
 
     return {
       ticketData,
-      ticketResponses
+      ticketResponses,
+      statuses
     }
   }
 }
