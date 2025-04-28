@@ -61,6 +61,8 @@
         </CCard>
         <div class="d-grid gap-2 mt-3">
           <button class="btn btn-primary text-white" type="button" @click="saveNotes">Fermer Ticket</button>
+          <button class="btn btn-success mt-2 text-white" @click="saveTickets">Sauvegarder Modification</button>
+
         </div>
       </CCol>
     </CRow>
@@ -79,6 +81,7 @@
         <div class="mt-4">
           <textarea v-model="newResponseMessage" class="form-control" rows="3" placeholder="Écrire une réponse..."></textarea>
           <button class="btn btn-success mt-2 text-white" @click="sendResponse">Envoyer</button>
+
         </div>
       </CCardBody>
     </CCard>
