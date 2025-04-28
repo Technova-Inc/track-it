@@ -1,45 +1,86 @@
 <template>
-    <h1 class="text-center">Consultation du Ticket #{{ ticketData.idTicket }}</h1>
-    <br /><br />
-    <CContainer>
-      <CRow>
-        <CCol>
-          <CCard>
-            <CCardBody>
-              <CCardTitle class="text-center">Informations du Ticket</CCardTitle>
-              <CListGroup>
-                <CListGroupItem> Titre : {{ ticketData.titreTicket }} </CListGroupItem>
-                <CListGroupItem> Description : {{ ticketData.descriptionTicket }} </CListGroupItem>
-                <CListGroupItem> Catégorie : {{ ticketData.categorie }} </CListGroupItem>
-                <CListGroupItem> Utilisateur : {{ ticketData.user }} </CListGroupItem>
-  
-                <CListGroupItem>
-                  Priorité :
-                  <select v-model="ticketData.priorite" class="form-control mt-2">
-                    <option value="Haute">Haute</option>
-                    <option value="Moyenne">Moyenne</option>
-                    <option value="Basse">Basse</option>
-                  </select>
-                </CListGroupItem>
-  
-                <CListGroupItem>
-                  Statut :
-                  <select v-model="ticketData.status" class="form-control mt-2">
-                    <option value="0">Ouvert</option>
-                    <option value="1">En cours</option>
-                    <option value="2">Fermé</option>
-                  </select>
-                </CListGroupItem>
-  
-                <CListGroupItem> Date de création : {{ ticketData.createdate }} </CListGroupItem>
-                <CListGroupItem> Dernière mise à jour : {{ ticketData.updatedate }} </CListGroupItem>
-              </CListGroup>
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
-    </CContainer>
-  </template>
+  <h1 class="text-center">Consultation du Ticket #{{ ticketData.idTicket }}</h1>
+  <br /><br />
+  <CContainer>
+    <CRow>
+      <!-- Première colonne -->
+      <CCol>
+        <!-- Informations principales -->
+        <CCard>
+          <CCardBody>
+            <CCardTitle class="text-center">Informations du Ticket</CCardTitle>
+            <CListGroup>
+              <CListGroupItem> Titre : {{ ticketData.titreTicket }} </CListGroupItem>
+              <CListGroupItem> Description : {{ ticketData.descriptionTicket }} </CListGroupItem>
+              <CListGroupItem> Catégorie : {{ ticketData.categorie }} </CListGroupItem>
+              <CListGroupItem> Utilisateur : {{ ticketData.user }} </CListGroupItem>
+            </CListGroup>
+          </CCardBody>
+        </CCard>
+
+        <br />
+
+        <!-- Historique -->
+        <CCard>
+          <CCardBody>
+            <CCardTitle class="text-center">Historique</CCardTitle>
+            <CListGroup>
+              <CListGroupItem> Date de création : {{ ticketData.createdate }} </CListGroupItem>
+              <CListGroupItem> Dernière mise à jour : {{ ticketData.updatedate }} </CListGroupItem>
+            </CListGroup>
+          </CCardBody>
+        </CCard>
+      </CCol>
+
+      <!-- Deuxième colonne -->
+      <CCol>
+        <!-- Gestion du ticket -->
+        <CCard>
+          <CCardBody>
+            <CCardTitle class="text-center">Gestion du Ticket</CCardTitle>
+            <CListGroup>
+              <CListGroupItem>
+                Priorité :
+                <select v-model="ticketData.priorite" class="form-control mt-2">
+                  <option value="Haute">Haute</option>
+                  <option value="Moyenne">Moyenne</option>
+                  <option value="Basse">Basse</option>
+                </select>
+              </CListGroupItem>
+
+              <CListGroupItem>
+                Statut :
+                <select v-model="ticketData.status" class="form-control mt-2">
+                  <option value="0">Ouvert</option>
+                  <option value="1">En cours</option>
+                  <option value="2">Fermé</option>
+                </select>
+              </CListGroupItem>
+            </CListGroup>
+          </CCardBody>
+        </CCard>
+        <div class="d-grid gap-2 mt-3">
+              <button class="btn btn-primary text-white" type="button" @click="saveNotes">Fermer Ticket</button>
+            </div>
+      </CCol>
+      
+    </CRow>
+  </CContainer>
+  <CContainer class="mt-5">
+  <CCard>
+    <CCardBody>
+      <CCardTitle class="text-center">Réponses au Ticket</CCardTitle>
+      <CListGroup>
+        <CListGroupItem v-for="(response, index) in ticketResponses" :key="index">
+          <strong>{{ response.author }} :</strong> {{ response.message }}
+          <div class="text-muted small">{{ response.date }}</div>
+        </CListGroupItem>
+      </CListGroup>
+    </CCardBody>
+  </CCard>
+</CContainer>
+<br />
+</template>
   
   <script>
 import { CRow, CCol, CCard, CCardBody, CCardTitle, CListGroup, CListGroupItem } from '@coreui/vue'
@@ -65,6 +106,29 @@ export default {
       createdate: '',
       updatedate: ''
     })
+
+    const ticketResponses = ref([
+  {
+    author: 'Agent Support',
+    message: 'Nous avons bien reçu votre demande et travaillons dessus.',
+    date: '2025-04-26 14:30'
+  },
+  {
+    author: 'Utilisateur',
+    message: 'Merci pour votre retour rapide.',
+    date: '2025-04-26 15:00'
+  },
+  {
+    author: 'Utilisateur',
+    message: 'Merci pour votre retour rapide.',
+    date: '2025-04-26 15:00'
+  },
+  {
+    author: 'Utilisateur',
+    message: 'Merci pour votre retour rapide.',
+    date: '2025-04-26 15:00'
+  }
+])
 
     const fetchTicketData = async () => {
   try {
@@ -96,7 +160,8 @@ export default {
     })
 
     return {
-      ticketData
+      ticketData,
+      ticketResponses
     }
   }
 }
