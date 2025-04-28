@@ -23,7 +23,7 @@
             <CCardTitle class="text-center">Hardware</CCardTitle>
             <CListGroup>
               <CListGroupItem> CPU : {{ pcData.CPU }} </CListGroupItem>
-              <CListGroupItem> RAM : {{ pcData.MEMORY }} octets </CListGroupItem>
+              <CListGroupItem> RAM : {{ pcData.MEMORY }} Go </CListGroupItem>
               <CListGroupItem> UUID : {{ pcData.UUID }} </CListGroupItem>
             </CListGroup>
           </CCardBody>
@@ -104,7 +104,7 @@ const note = ref('')
 // Fetch data from API
 const fetchPcData = async (id) => {
   try {
-    const response = await axios.get(`/Consultation?pc=${id}`)
+    const response = await axios.get(`/Pc/consult_pc.php?pc=${id}`)
     if (response.data?.pc && response.data.pc.length > 0) {
       pcData.value = response.data.pc[0]
       note.value = pcData.value.NOTE

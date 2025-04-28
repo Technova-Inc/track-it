@@ -49,6 +49,11 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/login',
+    name: 'Connexion | TrackIT',
+    component: () => import(/* webpackChunkName: "login" */ '@/views/pages/Login.vue'),
+  },
 ]
 
 const router = createRouter({
@@ -57,6 +62,18 @@ const router = createRouter({
   scrollBehavior() {
     return { top: 0 }
   },
+})
+
+// Middleware global pour éviter les redirections automatiques
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = false // Remplacez par votre logique d'authentification réelle
+  if (to.name === 'Connexion | TrackIT') {
+    next() // Autorise l'accès à la page de connexion
+  } else if (!isAuthenticated) {
+    next({ name: 'Connexion | TrackIT' }) // Redirige les utilisateurs non authentifiés vers /login
+  } else {
+    next() // Autorise toutes les autres routes
+  }
 })
 
 export default router
