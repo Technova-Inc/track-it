@@ -54,7 +54,7 @@ const routes = [
         children: [
           {
             path: 'read/:id',
-            name: 'Details du ticket',
+            name: 'Admin | Details du ticket',
             component: () =>
               import(/* webpackChunkName: "read-ticket" */ '@/views/support/ReadTicket.vue'),
           },
