@@ -82,7 +82,7 @@
 
         <!-- Ajouter une réponse -->
         <div class="mt-4">
-          <textarea v-model="newResponseMessage" class="form-control" rows="3" placeholder="Écrire une réponse..."></textarea>
+          <textarea v-model="newResponseMessage" required class="form-control" rows="3" placeholder="Écrire une réponse..."></textarea>
           <button class="btn btn-success mt-2 text-white" @click="sendResponse">Envoyer</button>
         </div>
       </CCardBody>
