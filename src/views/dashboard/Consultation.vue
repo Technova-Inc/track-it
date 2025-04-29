@@ -24,7 +24,6 @@
             <CListGroup>
               <CListGroupItem> CPU : {{ pcData.CPU }} </CListGroupItem>
               <CListGroupItem> RAM : {{ pcData.MEMORY }} Go </CListGroupItem>
-              <CListGroupItem> UUID : {{ pcData.UUID }} </CListGroupItem>
             </CListGroup>
           </CCardBody>
         </CCard>
@@ -36,6 +35,7 @@
             <CListGroup>
               <CListGroupItem> Domaine : {{ pcData.DOMAIN }} </CListGroupItem>
               <CListGroupItem> Adresse IP : {{ pcData.IPADDR }} </CListGroupItem>
+              <CListGroupItem> Adresse MAC : {{ pcData.MAC }} </CListGroupItem>
             </CListGroup>
           </CCardBody>
         </CCard>
@@ -85,7 +85,7 @@ const pcData = ref({
   WINPRODKEY: '',
   CPU: '',
   MEMORY: '',
-  UUID: '',
+  MAC: '',
   DOMAIN: '',
   IPADDR: '',
   USERAGENT: '',
