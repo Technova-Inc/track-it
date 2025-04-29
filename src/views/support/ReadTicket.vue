@@ -42,9 +42,9 @@
               <CListGroupItem>
                 Priorité :
                 <select v-model="ticketData.priorite" class="form-control mt-2">
-                  <option value="Haute">Haute</option>
+                  <option value="Faible">Faible</option>
                   <option value="Moyenne">Moyenne</option>
-                  <option value="Basse">Basse</option>
+                  <option value="Élevée">Élevée</option>
                 </select>
               </CListGroupItem>
 
