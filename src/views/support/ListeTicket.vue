@@ -67,6 +67,7 @@ export default {
       { title: 'Titre', key: 'titreTicket' },
       { title: 'Utilisateur', key: 'user' },
       { title: 'Priorité', key: 'Priorité' },
+      { title: 'Status', key: 'status' },
       { title: '', key: 'actions' },
     ]
     const error = ref(null)
@@ -89,6 +90,7 @@ export default {
             user: ticket.user,
             Priorité: ticket.Priorite,
             id: ticket.idTicket,
+            status: ticket.libelleStatus,
           }))
         } else {
           // Sinon, récupérer uniquement les tickets de l'utilisateur connecté
@@ -101,6 +103,7 @@ export default {
             user: ticket.user,
             Priorité: ticket.Priorite,
             id: ticket.idTicket,
+            status: ticket.libelleStatus,
           }))
         }
       } catch (err) {
