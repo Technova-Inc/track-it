@@ -72,7 +72,7 @@ export default {
     const filteredTickets = computed(() =>
   showClosed.value
     ? ticketList.value
-    : ticketList.value.filter(ticket => ticket.status !== '2')
+    : ticketList.value.filter(ticket => Number(ticket.status) !== 2)
 )
 
     const headers = [
@@ -115,6 +115,7 @@ export default {
             user: ticket.user,
             Priorité: ticket.Priorite,
             id: ticket.idTicket,
+            status: ticket.idstatus,
             libellestatus: ticket.libelleStatus,
           }))
         }
