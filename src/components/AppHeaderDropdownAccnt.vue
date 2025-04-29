@@ -22,7 +22,7 @@ const handleLogout = () => {
     <CDropdownMenu class="pt-0">
       <!--<CDropdownDivider />-->
       <CDropdownItem @click="handleLogout">
-        <CIcon icon="cil-lock-locked" /> Logout
+        <CIcon icon="cil-lock-locked" /> Se déconnecter
       </CDropdownItem>
     </CDropdownMenu>
   </CDropdown>

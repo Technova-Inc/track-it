@@ -168,7 +168,6 @@ export default {
       error,
       tableClass,
       search,
-      ticketList,
       showClosed,
       filteredTickets
     }

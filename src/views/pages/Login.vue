@@ -43,19 +43,6 @@
                 </CForm>
               </CCardBody>
             </CCard>
-            <CCard class="text-white bg-primary py-5" style="width: 44%">
-              <CCardBody class="text-center">
-                <div>
-                  <h2>Créer un compte</h2>
-                  <p>
-                    Vous pouvez créer un compte utilisateur pour accéder au système de support.
-                  </p>
-                  <CButton color="light" variant="outline" class="mt-3" disabled>
-                    Créer votre compte!
-                  </CButton>
-                </div>
-              </CCardBody>
-            </CCard>
           </CCardGroup>
         </CCol>
       </CRow>
