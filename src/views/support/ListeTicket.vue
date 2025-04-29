@@ -46,6 +46,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { computed, ref, onMounted } from 'vue'
 import { VDataTable, VBtn, VTextField } from 'vuetify/components'
 import axios from '@/plugins/axios'
+import {watch} from 'vue'
 
 export default {
   components: {
@@ -54,13 +55,14 @@ export default {
     VTextField,
   },
   setup() {
+
     const search = ref('')
     const route = useRoute()
     const router = useRouter()
 
     // Détection des types de routes
     const isCreationOrReadRoute = computed(() => route.path.includes('create') || route.path.includes('read'))
-    const isAdminSupportRoute = computed(() => route.fullPath.includes('/admin/support')) // Détection précise de /admin/support
+    const isAdminSupportRoute = computed(() => route.fullPath.includes('/admin/support'))
 
     const ticketList = ref([])
     const headers = [
@@ -91,7 +93,6 @@ export default {
             id: ticket.idTicket,
           }))
         } else {
-          // Sinon, récupérer uniquement les tickets de l'utilisateur connecté
           if (!connectedUserId.value) {
             throw new Error('Utilisateur non connecté ou ID non trouvé.')
           }
@@ -140,7 +141,9 @@ export default {
       updateTableClass()
       fetchTicketList()
     })
-
+    watch(route, async () => {
+      await fetchTicketList()
+    })
     return {
       isCreationOrReadRoute,
       isAdminSupportRoute,
