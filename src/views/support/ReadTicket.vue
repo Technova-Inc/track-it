@@ -25,15 +25,15 @@
           <CCardBody>
             <CCardTitle class="text-center">Historique</CCardTitle>
             <CListGroup>
-              <CListGroupItem> Date de création : {{ ticketData.createdate }} </CListGroupItem>
-              <CListGroupItem> Dernière mise à jour : {{ ticketData.updatedate }} </CListGroupItem>
+              <CListGroupItem> Date de création : {{ formatDate(ticketData.createdate) }} </CListGroupItem>
+              <CListGroupItem> Dernière mise à jour : {{ formatDate(ticketData.updatedate) }} </CListGroupItem>
             </CListGroup>
           </CCardBody>
         </CCard>
       </CCol>
 
       <!-- Deuxième colonne -->
-      <CCol>
+      <CCol v-if="idRole > 1">
         <!-- Gestion du ticket -->
         <CCard>
           <CCardBody>
@@ -75,7 +75,7 @@
         <CListGroup>
           <CListGroupItem v-for="(response, index) in ticketResponses" :key="index">
             <strong>{{ response.userLogin }} :</strong> {{ response.commentaire }}
-            <div class="text-muted small">{{ response.DatePublication }}</div>
+            <div class="text-muted small">{{ formatDate(response.DatePublication) }}</div>
           </CListGroupItem>
         </CListGroup>
 
@@ -90,7 +90,6 @@
 </template>
 
 <script>
-import { CRow, CCol, CCard, CCardBody, CCardTitle, CListGroup, CListGroupItem } from '@coreui/vue'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from '@/plugins/axios'
@@ -117,7 +116,8 @@ export default {
     const statuses = ref([])
     const newResponseMessage = ref('') 
     const user = JSON.parse(localStorage.getItem('user'));
-    const userId = user.id; // Utilisez l'id de l'utilisateur
+    const userId = user.id; 
+    const idRole = user.role;
 
     // --- Récupérer les informations du ticket ---
     const fetchTicketData = async () => {
@@ -142,6 +142,19 @@ export default {
       } catch (error) {
         console.error('Erreur ticket :', error)
       }
+    }
+
+    // --- Formater les dates ---
+    const formatDate = (dateString) => {
+      if (!dateString) return ''
+      const date = new Date(dateString)
+      return date.toLocaleString('fr-FR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      }).replace(',', ' -')
     }
 
     // --- Enregistrer les réponses ---
@@ -181,7 +194,9 @@ export default {
       ticketResponses,
       statuses,
       newResponseMessage,
-      sendResponse
+      sendResponse,
+      formatDate,
+      idRole
     }
   }
 }

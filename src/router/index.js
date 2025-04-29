@@ -46,7 +46,20 @@ const routes = [
               import(/* webpackChunkName: "read-ticket" */ '@/views/support/ReadTicket.vue'),
           },
         ],
-      },  
+      },
+      {
+        path: '/admin/support',
+        name: 'Administration',
+        component: () => import(/* webpackChunkName: "support" */ '@/views/support/ListeTicket.vue'),
+        children: [
+          {
+            path: 'read/:id',
+            name: 'Details du ticket',
+            component: () =>
+              import(/* webpackChunkName: "read-ticket" */ '@/views/support/ReadTicket.vue'),
+          },
+        ],
+      },
     ],
   },
   {

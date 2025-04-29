@@ -1,6 +1,6 @@
 <template>
   <div v-if="!isCreationOrReadRoute">
-    <h1>Système de support</h1>
+    <h1>{{ isAdminSupportRoute ? 'Administration - Tous les tickets' : 'Système de support' }}</h1>
     <br />
     <div>
       <v-text-field
@@ -57,8 +57,11 @@ export default {
     const search = ref('')
     const route = useRoute()
     const router = useRouter()
+
+    // Détection des types de routes
     const isCreationOrReadRoute = computed(() => route.path.includes('create') || route.path.includes('read'))
-    console.log(isCreationOrReadRoute)
+    const isAdminSupportRoute = computed(() => route.fullPath.includes('/admin/support')) // Détection précise de /admin/support
+
     const ticketList = ref([])
     const headers = [
       { title: 'Titre', key: 'titreTicket' },
@@ -68,38 +71,57 @@ export default {
     ]
     const error = ref(null)
 
+    // Récupérer l'utilisateur connecté depuis localStorage
+    const connectedUserId = ref(null)
+    const fetchConnectedUserId = () => {
+      const user = JSON.parse(localStorage.getItem('user'))
+      connectedUserId.value = user ? user.id : null
+    }
+
+    // Fonction pour récupérer les tickets
     const fetchTicketList = async () => {
       try {
-        const response = await axios.get('/Support/consult_tickets.php')
-        ticketList.value = response.data.tickets.map((ticket) => ({
-          titreTicket: ticket.titreTicket,
-          user: ticket.user,
-          Priorité: ticket.Priorite,
-          id: ticket.idTicket, // Assurez-vous que l'ID est récupéré ici
-        }))
+        if (isAdminSupportRoute.value) {
+          // Si sur la route /admin/support, récupérer tous les tickets
+          const response = await axios.get(`/Support/consult_tickets.php`)
+          ticketList.value = response.data.tickets.map((ticket) => ({
+            titreTicket: ticket.titreTicket,
+            user: ticket.user,
+            Priorité: ticket.Priorite,
+            id: ticket.idTicket,
+          }))
+        } else {
+          // Sinon, récupérer uniquement les tickets de l'utilisateur connecté
+          if (!connectedUserId.value) {
+            throw new Error('Utilisateur non connecté ou ID non trouvé.')
+          }
+          const response = await axios.get(`/Support/consult_tickets.php?idUser=${connectedUserId.value}`)
+          ticketList.value = response.data.tickets.map((ticket) => ({
+            titreTicket: ticket.titreTicket,
+            user: ticket.user,
+            Priorité: ticket.Priorite,
+            id: ticket.idTicket,
+          }))
+        }
       } catch (err) {
-        error.value = `Erreur lors de la récupération des données: ${err.message}`
-        console.error('Erreur lors de la récupération des données:', err)
+        error.value = `Erreur lors de la récupération des données : ${err.message}`
+        console.error('Erreur lors de la récupération des données :', err)
       }
     }
 
-    onMounted(() => {
-      observeThemeChange()
-      updateTableClass()
-      fetchTicketList()
-    })
-
+    // Fonction pour consulter un ticket
     const consultTicket = (ticket) => {
-  router.push(`/support/read/${ticket.id}`)  // Use `ticket.id` instead of the whole ticket object
-}
+      router.push(`/support/read/${ticket.id}`) // Use `ticket.id` instead of the whole ticket object
+    }
 
+    // Gestion des thèmes
     const tableClass = ref('')
-
     const updateTableClass = () => {
       const theme = document.documentElement.getAttribute('data-coreui-theme')
       tableClass.value = theme === 'dark' ? 'dark-table' : 'light-table'
     }
 
+    // Observateur pour le changement de thème
     let observer
     const observeThemeChange = () => {
       observer = new MutationObserver(() => {
@@ -111,8 +133,17 @@ export default {
       })
     }
 
+    // Lifecycle hooks
+    onMounted(() => {
+      fetchConnectedUserId()
+      observeThemeChange()
+      updateTableClass()
+      fetchTicketList()
+    })
+
     return {
       isCreationOrReadRoute,
+      isAdminSupportRoute,
       ticketList,
       headers,
       consultTicket,
