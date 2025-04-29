@@ -110,6 +110,8 @@ const fetchCategories = async () => {
 }
 
 // Submit ticket
+const user = JSON.parse(localStorage.getItem('user'))
+const userId = user ? user.id : null
 const submitTicket = async () => {
   try {
     const response = await axios.post('/Support/submit_ticket.php', {
@@ -118,6 +120,7 @@ const submitTicket = async () => {
       priority: ticketData.value.priority,
       title: ticketData.value.title,
       description: ticketData.value.description,
+      userid: userId,
     }, {
       headers: {
         'Content-Type': 'application/json'
