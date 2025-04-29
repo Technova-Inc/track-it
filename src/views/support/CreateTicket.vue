@@ -65,6 +65,7 @@
 </template>
 
 <script setup>
+import { useRoute, useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import { CRow, CCol, CCard, CCardBody, CCardTitle, CListGroup, CListGroupItem } from '@coreui/vue'
 import axios from '@/plugins/axios'
@@ -79,6 +80,7 @@ const ticketData = ref({
 })
 
 const categories = ref([])
+const router = useRouter()
 
 // Detect OS
 const detectOS = () => {
@@ -128,9 +130,8 @@ const submitTicket = async () => {
     })
     
     if (response.data.success) {
-      alert('Ticket soumis avec succès!')
+      router.push(`/support`)
     } else {
-      alert('Erreur lors de la soumission du ticket.')
     }
   } catch (error) {
     console.error('Erreur lors de la soumission du ticket:', error)

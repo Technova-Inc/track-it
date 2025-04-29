@@ -60,8 +60,9 @@
           </CCardBody>
         </CCard>
         <div class="d-grid gap-2 mt-3">
-          <button class="btn btn-primary text-white" type="button" @click="saveNotes">Fermer Ticket</button>
           <button class="btn btn-success mt-2 text-white" @click="updateTicket">Sauvegarder Modification</button>
+          <button class="btn btn-danger text-white" type="button" @click="deleteTicket">Supprimer Ticket</button>
+
         </div>
       </CCol>
     </CRow>
@@ -92,12 +93,14 @@
 
 <script>
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import axios from '@/plugins/axios'
 
 export default {
   setup() {
     const route = useRoute()
+    const router = useRouter()
+
     const ticketId = route.params.id // ID du ticket
 
     const ticketData = ref({
@@ -169,14 +172,29 @@ export default {
   try {
     const response = await axios.post('/Support/update_ticket.php', updatedTicket);
     if (response.data.success) {
-      alert('Ticket mis à jour avec succès');
       fetchTicketData();
     } else {
-      alert('Erreur lors de la mise à jour du ticket');
     }
   } catch (error) {
     console.error('Erreur de mise à jour du ticket:', error);
-    alert('Erreur serveur.');
+  }
+};
+
+ // --- Mettre à jour le ticket ---
+ const deleteTicket = async () => {
+  const updatedTicket = {
+    idTicket: ticketData.value.idTicket,
+  };
+
+  try {
+    const response = await axios.post('/Support/delete_ticket.php', updatedTicket);
+    if (response.data.success) {
+      router.push(`/support`)
+
+    } else {
+    }
+  } catch (error) {
+    console.error('Erreur de mise à jour du ticket:', error);
   }
 };
 
@@ -196,7 +214,6 @@ export default {
     // --- Enregistrer les réponses ---
     const sendResponse = async () => {
       if (!newResponseMessage.value.trim()) {
-        alert('Veuillez écrire un message avant d\'envoyer.')
         return
       }
 
@@ -208,15 +225,12 @@ export default {
         })
 
         if (response.data?.success) {
-          alert('Réponse envoyée avec succès.')
           newResponseMessage.value = '' // Reset champ
           fetchTicketData() // Recharge les réponses
         } else {
-          alert('Erreur envoi de la réponse.')
         }
       } catch (error) {
         console.error('Erreur envoi de la réponse :', error)
-        alert('Erreur serveur.')
       }
     }
 
@@ -235,7 +249,8 @@ export default {
       sendResponse,
       formatDate,
       idRole,
-      updateTicket
+      updateTicket,
+      deleteTicket
     }
   }
 }
