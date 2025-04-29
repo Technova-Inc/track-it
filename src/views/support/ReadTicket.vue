@@ -42,9 +42,9 @@
               <CListGroupItem>
                 Priorité :
                 <select v-model="ticketData.priorite" class="form-control mt-2">
-                  <option value="Haute">Haute</option>
+                  <option value="Faible">Faible</option>
                   <option value="Moyenne">Moyenne</option>
-                  <option value="Basse">Basse</option>
+                  <option value="Élevée">Élevée</option>
                 </select>
               </CListGroupItem>
 
@@ -61,7 +61,7 @@
         </CCard>
         <div class="d-grid gap-2 mt-3">
           <button class="btn btn-primary text-white" type="button" @click="saveNotes">Fermer Ticket</button>
-          <button class="btn btn-success mt-2 text-white" @click="saveTickets">Sauvegarder Modification</button>
+          <button class="btn btn-success mt-2 text-white" @click="updateTicket">Sauvegarder Modification</button>
         </div>
       </CCol>
     </CRow>
@@ -144,6 +144,41 @@ export default {
       }
     }
 
+    const fetchStatuses = async () => {
+      try {
+        const response = await axios.get('/Support/Get_details.php')
+        if (response.data?.statuses) {
+          statuses.value = response.data.statuses
+        } else {
+          console.error('Erreur statuts')
+        }
+      } catch (error) {
+        console.error('Erreur statuts :', error)
+      }
+    }
+
+    // --- Mettre à jour le ticket ---
+    const updateTicket = async () => {
+  const updatedTicket = {
+    idTicket: ticketData.value.idTicket,
+    status: ticketData.value.status, // <-- correction ici
+    priority: ticketData.value.priorite,
+  };
+
+  try {
+    const response = await axios.post('/Support/update_ticket.php', updatedTicket);
+    if (response.data.success) {
+      alert('Ticket mis à jour avec succès');
+      fetchTicketData();
+    } else {
+      alert('Erreur lors de la mise à jour du ticket');
+    }
+  } catch (error) {
+    console.error('Erreur de mise à jour du ticket:', error);
+    alert('Erreur serveur.');
+  }
+};
+
     // --- Formater les dates ---
     const formatDate = (dateString) => {
       if (!dateString) return ''
@@ -187,6 +222,8 @@ export default {
     // --- Au montage ---
     onMounted(() => {
       fetchTicketData()
+      fetchStatuses()
+
     })
 
     return {
@@ -196,7 +233,8 @@ export default {
       newResponseMessage,
       sendResponse,
       formatDate,
-      idRole
+      idRole,
+      updateTicket
     }
   }
 }

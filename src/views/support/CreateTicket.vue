@@ -29,9 +29,9 @@
               <CListGroupItem>
                 <label for="priority">Priorité</label>
                 <select id="priority" v-model="ticketData.priority" class="form-control">
-                  <option value="low">Faible</option>
-                  <option value="medium">Moyenne</option>
-                  <option value="high">Élevée</option>
+                  <option value="Faible">Faible</option>
+                  <option value="Moyenne">Moyenne</option>
+                  <option value="Élevée">Élevée</option>
                 </select>
               </CListGroupItem>
               <CListGroupItem>
