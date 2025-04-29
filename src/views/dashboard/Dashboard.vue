@@ -25,36 +25,6 @@ import WidgetsStatsA from '@/views/statistiques/WidgetsStatsTypeA.vue'
               <MainChart style="height: 300px; max-height: 300px; margin-top: 40px" />
             </CRow>
           </CCardBody>
-          <CCardFooter>
-            <CRow
-              :xs="{ cols: 1, gutter: 4 }"
-              :sm="{ cols: 2 }"
-              :lg="{ cols: 4 }"
-              :xl="{ cols: 5 }"
-              class="mb-2 text-center"
-            >
-              <CCol>
-                <div class="text-body-secondary">Visits</div>
-                <div class="fw-semibold text-truncate">29.703 Users (40%)</div>
-                <CProgress class="mt-2" color="success" thin :precision="1" :value="40" />
-              </CCol>
-              <CCol>
-                <div class="text-body-secondary">Unique</div>
-                <div class="fw-semibold text-truncate">24.093 Users (20%)</div>
-                <CProgress class="mt-2" color="info" thin :precision="1" :value="20" />
-              </CCol>
-              <CCol>
-                <div class="text-body-secondary">Pageviews</div>
-                <div class="fw-semibold text-truncate">78.706 Views (60%)</div>
-                <CProgress class="mt-2" color="warning" thin :precision="1" :value="60" />
-              </CCol>
-              <CCol>
-                <div class="text-body-secondary">New Users</div>
-                <div class="fw-semibold text-truncate">22.123 Users (80%)</div>
-                <CProgress class="mt-2" color="danger" thin :precision="1" :value="80" />
-              </CCol>
-            </CRow>
-          </CCardFooter>
         </CCard>
       </CCol>
     </CRow>
