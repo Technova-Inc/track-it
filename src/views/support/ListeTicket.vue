@@ -28,7 +28,7 @@
     </div>
     <v-data-table
       :headers="headers"
-      :items="ticketList"
+      :items="filteredTickets"
       :class="tableClass"
       :search="search"
       :items-per-page-text="`Nombre de tickets par page`"
@@ -59,17 +59,27 @@ export default {
     const search = ref('')
     const route = useRoute()
     const router = useRouter()
+    const showClosed = ref(false)
 
     // Détection des types de routes
     const isCreationOrReadRoute = computed(() => route.path.includes('create') || route.path.includes('read'))
     const isAdminSupportRoute = computed(() => route.fullPath.includes('/admin/support'))
 
+
+
     const ticketList = ref([])
+
+    const filteredTickets = computed(() =>
+  showClosed.value
+    ? ticketList.value
+    : ticketList.value.filter(ticket => ticket.status !== '2')
+)
+
     const headers = [
       { title: 'Titre', key: 'titreTicket' },
       { title: 'Utilisateur', key: 'user' },
       { title: 'Priorité', key: 'Priorité' },
-      { title: 'Status', key: 'status' },
+      { title: 'Status', key: 'libellestatus' },
       { title: '', key: 'actions' },
     ]
     const error = ref(null)
@@ -92,7 +102,8 @@ export default {
             user: ticket.user,
             Priorité: ticket.Priorite,
             id: ticket.idTicket,
-            status: ticket.libelleStatus,
+            status: ticket.idstatus,
+            libellestatus: ticket.libelleStatus,
           }))
         } else {
           if (!connectedUserId.value) {
@@ -104,7 +115,7 @@ export default {
             user: ticket.user,
             Priorité: ticket.Priorite,
             id: ticket.idTicket,
-            status: ticket.libelleStatus,
+            libellestatus: ticket.libelleStatus,
           }))
         }
       } catch (err) {
@@ -156,6 +167,9 @@ export default {
       error,
       tableClass,
       search,
+      ticketList,
+      showClosed,
+      filteredTickets
     }
   },
 }
