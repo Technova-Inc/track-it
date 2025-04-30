@@ -25,8 +25,12 @@
           <CCardBody>
             <CCardTitle class="text-center">Historique</CCardTitle>
             <CListGroup>
-              <CListGroupItem> Date de création : {{ formatDate(ticketData.createdate) }} </CListGroupItem>
-              <CListGroupItem> Dernière mise à jour : {{ formatDate(ticketData.updatedate) }} </CListGroupItem>
+              <CListGroupItem>
+                Date de création : {{ formatDate(ticketData.createdate) }}
+              </CListGroupItem>
+              <CListGroupItem>
+                Dernière mise à jour : {{ formatDate(ticketData.updatedate) }}
+              </CListGroupItem>
             </CListGroup>
           </CCardBody>
         </CCard>
@@ -51,7 +55,11 @@
               <CListGroupItem>
                 Statut :
                 <select v-model="ticketData.status" class="form-control mt-2">
-                  <option v-for="status in statuses" :key="status.idstatus" :value="status.idstatus">
+                  <option
+                    v-for="status in statuses"
+                    :key="status.idstatus"
+                    :value="status.idstatus"
+                  >
                     {{ status.libellestatus }}
                   </option>
                 </select>
@@ -60,14 +68,17 @@
           </CCardBody>
         </CCard>
         <div class="d-grid gap-2 mt-3">
-          <button class="btn btn-success mt-2 text-white" @click="updateTicket">Sauvegarder Modification</button>
-          <button class="btn btn-danger text-white" type="button" @click="deleteTicket">Supprimer Ticket</button>
-
+          <button class="btn btn-success mt-2 text-white" @click="updateTicket">
+            Sauvegarder Modification
+          </button>
+          <button class="btn btn-danger text-white" type="button" @click="deleteTicket">
+            Supprimer Ticket
+          </button>
         </div>
       </CCol>
     </CRow>
   </CContainer>
-  
+
   <!-- Affichage des réponses du ticket -->
   <CContainer class="mt-5">
     <CCard>
@@ -82,7 +93,13 @@
 
         <!-- Ajouter une réponse -->
         <div class="mt-4">
-          <textarea v-model="newResponseMessage" required class="form-control" rows="3" placeholder="Écrire une réponse..."></textarea>
+          <textarea
+            v-model="newResponseMessage"
+            required
+            class="form-control"
+            rows="3"
+            placeholder="Écrire une réponse..."
+          ></textarea>
           <button class="btn btn-success mt-2 text-white" @click="sendResponse">Envoyer</button>
         </div>
       </CCardBody>
@@ -112,16 +129,16 @@ export default {
       priorite: '',
       status: '',
       createdate: '',
-      updatedate: ''
+      updatedate: '',
     })
 
     const ticketResponses = ref([])
 
     const statuses = ref([])
-    const newResponseMessage = ref('') 
-    const user = JSON.parse(localStorage.getItem('user'));
-    const userId = user.id; 
-    const idRole = user.role;
+    const newResponseMessage = ref('')
+    const user = JSON.parse(localStorage.getItem('user'))
+    const userId = user.id
+    const idRole = user.role
 
     // --- Récupérer les informations du ticket ---
     const fetchTicketData = async () => {
@@ -137,7 +154,7 @@ export default {
             priorite: response.data.ticket.Priorite,
             status: response.data.ticket.idstatus,
             createdate: response.data.ticket.createDate,
-            updatedate: response.data.ticket.UpdateDate
+            updatedate: response.data.ticket.UpdateDate,
           }
           ticketResponses.value = response.data.ticket.reponses || []
         } else {
@@ -163,52 +180,53 @@ export default {
 
     // --- Mettre à jour le ticket ---
     const updateTicket = async () => {
-  const updatedTicket = {
-    idTicket: ticketData.value.idTicket,
-    status: ticketData.value.status, // <-- correction ici
-    priority: ticketData.value.priorite,
-  };
+      const updatedTicket = {
+        idTicket: ticketData.value.idTicket,
+        status: ticketData.value.status, // <-- correction ici
+        priority: ticketData.value.priorite,
+      }
 
-  try {
-    const response = await axios.post('/Support/update_ticket.php', updatedTicket);
-    if (response.data.success) {
-      fetchTicketData();
-    } else {
+      try {
+        const response = await axios.post('/Support/update_ticket.php', updatedTicket)
+        if (response.data.success) {
+          fetchTicketData()
+        } else {
+        }
+      } catch (error) {
+        console.error('Erreur de mise à jour du ticket:', error)
+      }
     }
-  } catch (error) {
-    console.error('Erreur de mise à jour du ticket:', error);
-  }
-};
 
- // --- Mettre à jour le ticket ---
- const deleteTicket = async () => {
-  const updatedTicket = {
-    idTicket: ticketData.value.idTicket,
-  };
+    // --- Mettre à jour le ticket ---
+    const deleteTicket = async () => {
+      const updatedTicket = {
+        idTicket: ticketData.value.idTicket,
+      }
 
-  try {
-    const response = await axios.post('/Support/delete_ticket.php', updatedTicket);
-    if (response.data.success) {
-      router.push(`/support`)
-
-    } else {
+      try {
+        const response = await axios.post('/Support/delete_ticket.php', updatedTicket)
+        if (response.data.success) {
+          router.push(`/support`)
+        } else {
+        }
+      } catch (error) {
+        console.error('Erreur de mise à jour du ticket:', error)
+      }
     }
-  } catch (error) {
-    console.error('Erreur de mise à jour du ticket:', error);
-  }
-};
 
     // --- Formater les dates ---
     const formatDate = (dateString) => {
       if (!dateString) return ''
       const date = new Date(dateString)
-      return date.toLocaleString('fr-FR', {
-        hour: '2-digit',
-        minute: '2-digit',
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      }).replace(',', ' -')
+      return date
+        .toLocaleString('fr-FR', {
+          hour: '2-digit',
+          minute: '2-digit',
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        })
+        .replace(',', ' -')
     }
 
     // --- Enregistrer les réponses ---
@@ -221,7 +239,7 @@ export default {
         const response = await axios.post('/Support/submit_response.php', {
           idTicket: ticketData.value.idTicket,
           idUser: userId, // ici bien idUser
-          commentaire: newResponseMessage.value.trim() // ici bien commentaire
+          commentaire: newResponseMessage.value.trim(), // ici bien commentaire
         })
 
         if (response.data?.success) {
@@ -238,7 +256,6 @@ export default {
     onMounted(() => {
       fetchTicketData()
       fetchStatuses()
-
     })
 
     return {
@@ -250,8 +267,8 @@ export default {
       formatDate,
       idRole,
       updateTicket,
-      deleteTicket
+      deleteTicket,
     }
-  }
+  },
 }
 </script>

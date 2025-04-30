@@ -1,6 +1,6 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router'
 
-import DefaultLayout from '@/layouts/DefaultLayout';
+import DefaultLayout from '@/layouts/DefaultLayout'
 
 const routes = [
   {
@@ -31,7 +31,8 @@ const routes = [
       {
         path: '/support',
         name: 'Système de support',
-        component: () => import(/* webpackChunkName: "support" */ '@/views/support/ListeTicket.vue'),
+        component: () =>
+          import(/* webpackChunkName: "support" */ '@/views/support/ListeTicket.vue'),
         children: [
           {
             path: 'create',
@@ -50,7 +51,8 @@ const routes = [
       {
         path: '/admin/support',
         name: 'Administration',
-        component: () => import(/* webpackChunkName: "support" */ '@/views/support/ListeTicket.vue'),
+        component: () =>
+          import(/* webpackChunkName: "support" */ '@/views/support/ListeTicket.vue'),
         children: [
           {
             path: 'read/:id',
@@ -67,29 +69,29 @@ const routes = [
     name: 'Connexion | TrackIT',
     component: () => import(/* webpackChunkName: "login" */ '@/views/pages/Login.vue'),
   },
-];
+]
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior() {
-    return { top: 0 };
+    return { top: 0 }
   },
-});
+})
 
 // Middleware global pour gérer les redirections
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = !!localStorage.getItem('user'); // Vérifie si l'utilisateur est authentifié
+  const isAuthenticated = !!localStorage.getItem('user') // Vérifie si l'utilisateur est authentifié
   if (to.name === 'Connexion | TrackIT' && isAuthenticated) {
     // Si un utilisateur authentifié essaie d'aller sur la page de connexion, redirigez-le vers le tableau de bord
-    next({ name: 'Dashboard' });
+    next({ name: 'Dashboard' })
   } else if (!isAuthenticated && to.name !== 'Connexion | TrackIT') {
     // Si l'utilisateur n'est pas authentifié, redirigez-le vers la page de connexion
-    next({ name: 'Connexion | TrackIT' });
+    next({ name: 'Connexion | TrackIT' })
   } else {
     // Autorise l'accès à toutes les autres routes
-    next();
+    next()
   }
-});
+})
 
-export default router;
+export default router

@@ -56,7 +56,9 @@
             <CCardTitle class="text-center">Notes</CCardTitle>
             <textarea class="form-control" aria-label="Notes" v-model="note"></textarea>
             <div class="d-grid gap-2 mt-3">
-              <button class="btn btn-primary text-white" type="button" @click="saveNotes">Sauvegarder</button>
+              <button class="btn btn-primary text-white" type="button" @click="saveNotes">
+                Sauvegarder
+              </button>
             </div>
           </CCardBody>
         </CCard>
@@ -100,7 +102,6 @@ const pcId = route.params.id
 
 const note = ref('')
 
-
 // Fetch data from API
 const fetchPcData = async (id) => {
   try {
@@ -108,7 +109,6 @@ const fetchPcData = async (id) => {
     if (response.data?.pc && response.data.pc.length > 0) {
       pcData.value = response.data.pc[0]
       note.value = pcData.value.NOTE
-
     } else {
       console.error("Aucune donnée trouvée pour l'ID spécifié")
     }
@@ -124,14 +124,18 @@ onMounted(() => {
 
 const saveNotes = async () => {
   try {
-    const response = await axios.post('/Pc/consult_notes.php', {
-      pc: pcId,          
-      note: note.value   
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+    const response = await axios.post(
+      '/Pc/consult_notes.php',
+      {
+        pc: pcId,
+        note: note.value,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
 
     if (response.data.success) {
       alert('Note sauvegardée avec succès.')

@@ -21,7 +21,7 @@
       >
         {{ showClosed ? 'Cacher les tickets fermés' : 'Afficher les tickets fermés' }}
       </v-btn>
-      
+
       <br />
 
       <br />
@@ -46,7 +46,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { computed, ref, onMounted } from 'vue'
 import { VDataTable, VBtn, VTextField } from 'vuetify/components'
 import axios from '@/plugins/axios'
-import {watch} from 'vue'
+import { watch } from 'vue'
 
 export default {
   components: {
@@ -55,25 +55,24 @@ export default {
     VTextField,
   },
   setup() {
-
     const search = ref('')
     const route = useRoute()
     const router = useRouter()
     const showClosed = ref(false)
 
     // Détection des types de routes
-    const isCreationOrReadRoute = computed(() => route.path.includes('create') || route.path.includes('read'))
+    const isCreationOrReadRoute = computed(
+      () => route.path.includes('create') || route.path.includes('read'),
+    )
     const isAdminSupportRoute = computed(() => route.fullPath.includes('/admin/support'))
-
-
 
     const ticketList = ref([])
 
     const filteredTickets = computed(() =>
-  showClosed.value
-    ? ticketList.value
-    : ticketList.value.filter(ticket => Number(ticket.status) !== 2)
-)
+      showClosed.value
+        ? ticketList.value
+        : ticketList.value.filter((ticket) => Number(ticket.status) !== 2),
+    )
 
     const headers = [
       { title: 'Titre', key: 'titreTicket' },
@@ -109,7 +108,9 @@ export default {
           if (!connectedUserId.value) {
             throw new Error('Utilisateur non connecté ou ID non trouvé.')
           }
-          const response = await axios.get(`/Support/consult_tickets.php?idUser=${connectedUserId.value}`)
+          const response = await axios.get(
+            `/Support/consult_tickets.php?idUser=${connectedUserId.value}`,
+          )
           ticketList.value = response.data.tickets.map((ticket) => ({
             titreTicket: ticket.titreTicket,
             user: ticket.user,
@@ -169,7 +170,7 @@ export default {
       tableClass,
       search,
       showClosed,
-      filteredTickets
+      filteredTickets,
     }
   },
 }
