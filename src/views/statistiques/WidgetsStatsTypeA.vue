@@ -42,7 +42,7 @@ const listStats = ref([
 const fetchData = async () => {
   try {
     const response = await axios.get('/Dashboard/dashboard.php')
-    const data = response.data.data  // <-- Accès correct aux vraies valeurs
+    const data = response.data.data // <-- Accès correct aux vraies valeurs
 
     listStats.value = [
       {
