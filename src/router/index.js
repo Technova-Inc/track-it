@@ -1,6 +1,6 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router';
 
-import DefaultLayout from '@/layouts/DefaultLayout'
+import DefaultLayout from '@/layouts/DefaultLayout';
 
 const routes = [
   {
@@ -31,26 +31,65 @@ const routes = [
       {
         path: '/support',
         name: 'Système de support',
-        component: () => import(/* webpackChunkName: "liste" */ '@/views/support/ListeTicket.vue'),
+        component: () => import(/* webpackChunkName: "support" */ '@/views/support/ListeTicket.vue'),
         children: [
           {
             path: 'create',
             name: 'Créer un ticket de support',
             component: () =>
-              import(/* webpackChunkName: "consultation" */ '@/views/support/CreateTicket.vue'),
+              import(/* webpackChunkName: "create-ticket" */ '@/views/support/CreateTicket.vue'),
+          },
+          {
+            path: 'read/:id',
+            name: 'Details du ticket',
+            component: () =>
+              import(/* webpackChunkName: "read-ticket" */ '@/views/support/ReadTicket.vue'),
+          },
+        ],
+      },
+      {
+        path: '/admin/support',
+        name: 'Administration',
+        component: () => import(/* webpackChunkName: "support" */ '@/views/support/ListeTicket.vue'),
+        children: [
+          {
+            path: 'read/:id',
+            name: 'Admin | Details du ticket',
+            component: () =>
+              import(/* webpackChunkName: "read-ticket" */ '@/views/support/ReadTicket.vue'),
           },
         ],
       },
     ],
   },
-]
+  {
+    path: '/login',
+    name: 'Connexion | TrackIT',
+    component: () => import(/* webpackChunkName: "login" */ '@/views/pages/Login.vue'),
+  },
+];
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior() {
-    return { top: 0 }
+    return { top: 0 };
   },
-})
+});
 
-export default router
+// Middleware global pour gérer les redirections
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = !!localStorage.getItem('user'); // Vérifie si l'utilisateur est authentifié
+  if (to.name === 'Connexion | TrackIT' && isAuthenticated) {
+    // Si un utilisateur authentifié essaie d'aller sur la page de connexion, redirigez-le vers le tableau de bord
+    next({ name: 'Dashboard' });
+  } else if (!isAuthenticated && to.name !== 'Connexion | TrackIT') {
+    // Si l'utilisateur n'est pas authentifié, redirigez-le vers la page de connexion
+    next({ name: 'Connexion | TrackIT' });
+  } else {
+    // Autorise l'accès à toutes les autres routes
+    next();
+  }
+});
+
+export default router;

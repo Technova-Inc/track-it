@@ -1,5 +1,17 @@
 <script setup>
 import avatar from '@/assets/images/avatars/8.jpg'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+// Fonction pour gérer la déconnexion
+const handleLogout = () => {
+  // Supprimer les données d'utilisateur du localStorage
+  localStorage.removeItem('user')
+
+  // Rediriger vers la page de connexion
+  router.push('/login')
+}
 </script>
 
 <template>
@@ -9,7 +21,9 @@ import avatar from '@/assets/images/avatars/8.jpg'
     </CDropdownToggle>
     <CDropdownMenu class="pt-0">
       <!--<CDropdownDivider />-->
-      <CDropdownItem> <CIcon icon="cil-lock-locked" /> Logout </CDropdownItem>
+      <CDropdownItem @click="handleLogout">
+        <CIcon icon="cil-lock-locked" /> Se déconnecter
+      </CDropdownItem>
     </CDropdownMenu>
   </CDropdown>
 </template>

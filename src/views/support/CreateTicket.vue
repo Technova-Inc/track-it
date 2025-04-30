@@ -7,58 +7,56 @@
         <CCard>
           <CCardBody>
             <CCardTitle class="text-center">Formulaire de création de ticket</CCardTitle>
-            <form @submit.prevent="submitTicket">
-              <CListGroup>
-                <CListGroupItem>
-                  <label for="category">Catégorie</label>
-                  <select id="category" v-model="ticketData.category" class="form-control">
-                    <option value="bug">Bug</option>
-                    <option value="feature">Demande de fonctionnalité</option>
-                    <option value="support">Assistance</option>
-                  </select>
-                </CListGroupItem>
-                <CListGroupItem>
-                  <label for="os">Système d'exploitation</label>
-                  <input
-                    type="text"
-                    id="os"
-                    v-model="ticketData.os"
-                    class="form-control"
-                    readonly
-                  />
-                </CListGroupItem>
-                <CListGroupItem>
-                  <label for="priority">Priorité</label>
-                  <select id="priority" v-model="ticketData.priority" class="form-control">
-                    <option value="low">Faible</option>
-                    <option value="medium">Moyenne</option>
-                    <option value="high">Élevée</option>
-                  </select>
-                </CListGroupItem>
-                <CListGroupItem>
-                  <label for="title">Titre</label>
-                  <input
-                    type="text"
-                    id="title"
-                    v-model="ticketData.title"
-                    class="form-control"
-                    required
-                  />
-                </CListGroupItem>
-                <CListGroupItem>
-                  <label for="description">Description</label>
-                  <textarea
-                    id="description"
-                    v-model="ticketData.description"
-                    class="form-control"
-                    required
-                  ></textarea>
-                </CListGroupItem>
-              </CListGroup>
-              <div class="d-grid gap-2 mt-3">
-                <button class="btn btn-primary" type="submit">Soumettre</button>
-              </div>
-            </form>
+            <CListGroup>
+              <CListGroupItem>
+                <label for="category">Catégorie</label>
+                <select id="category" v-model="ticketData.category" class="form-control">
+                  <option v-for="category in categories" :key="category.idCategorie" :value="category.libelleCategorie">
+                    {{ category.libelleCategorie }}
+                  </option>
+                </select>
+              </CListGroupItem>
+              <CListGroupItem>
+                <label for="os">Système d'exploitation</label>
+                <input
+                  type="text"
+                  id="os"
+                  v-model="ticketData.os"
+                  class="form-control"
+                  readonly
+                />
+              </CListGroupItem>
+              <CListGroupItem>
+                <label for="priority">Priorité</label>
+                <select id="priority" v-model="ticketData.priority" class="form-control">
+                  <option value="Faible">Faible</option>
+                  <option value="Moyenne">Moyenne</option>
+                  <option value="Élevée">Élevée</option>
+                </select>
+              </CListGroupItem>
+              <CListGroupItem>
+                <label for="title">Titre</label>
+                <input
+                  type="text"
+                  id="title"
+                  v-model="ticketData.title"
+                  class="form-control"
+                  required
+                />
+              </CListGroupItem>
+              <CListGroupItem>
+                <label for="description">Description</label>
+                <textarea
+                  id="description"
+                  v-model="ticketData.description"
+                  class="form-control"
+                  required
+                ></textarea>
+              </CListGroupItem>
+            </CListGroup>
+            <div class="d-grid gap-2 mt-3">
+              <button class="btn btn-primary" type="button" @click="submitTicket">Soumettre</button>
+            </div>
           </CCardBody>
         </CCard>
       </CCol>
@@ -67,11 +65,12 @@
 </template>
 
 <script setup>
-import { CRow, CCol, CCard, CCardBody, CCardTitle, CListGroup, CListGroupItem } from '@coreui/vue'
+import { useRoute, useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
+import { CRow, CCol, CCard, CCardBody, CCardTitle, CListGroup, CListGroupItem } from '@coreui/vue'
 import axios from '@/plugins/axios'
 
-// Define reactive data properties
+// Define reactive data properties for ticket and categories
 const ticketData = ref({
   category: '',
   os: '',
@@ -80,9 +79,11 @@ const ticketData = ref({
   description: '',
 })
 
+const categories = ref([])
+const router = useRouter()
+
 // Detect OS
 const detectOS = () => {
-  // Simple OS detection logic (this can be enhanced)
   const userAgent = window.navigator.userAgent
   let os = 'Unknown OS'
 
@@ -95,21 +96,52 @@ const detectOS = () => {
   ticketData.value.os = os
 }
 
-onMounted(() => {
-  detectOS()
-})
+// Fetch categories from the API
+const fetchCategories = async () => {
+  try {
+    const response = await axios.get('/Support/Get_details.php')
+    if (response.data.categories) {
+      categories.value = response.data.categories
+    } else {
+      alert('Erreur lors de la récupération des catégories.')
+    }
+  } catch (error) {
+    console.error('Erreur lors de la récupération des catégories:', error)
+    alert('Erreur lors de la récupération des catégories.')
+  }
+}
 
+// Submit ticket
+const user = JSON.parse(localStorage.getItem('user'))
+const userId = user ? user.id : null
 const submitTicket = async () => {
   try {
-    const response = await axios.post('/submit-ticket', ticketData.value)
-    if (response.status === 200) {
-      alert('Ticket soumis avec succès!')
+    const response = await axios.post('/Support/submit_ticket.php', {
+      category: ticketData.value.category,
+      os: ticketData.value.os,
+      priority: ticketData.value.priority,
+      title: ticketData.value.title,
+      description: ticketData.value.description,
+      userid: userId,
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    
+    if (response.data.success) {
+      router.push(`/support`)
     } else {
-      alert('Erreur lors de la soumission du ticket.')
     }
   } catch (error) {
     console.error('Erreur lors de la soumission du ticket:', error)
     alert('Erreur lors de la soumission du ticket.')
   }
 }
+
+// On component mount, detect OS and fetch categories
+onMounted(() => {
+  detectOS()
+  fetchCategories()
+})
 </script>

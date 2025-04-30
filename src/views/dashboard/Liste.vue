@@ -50,7 +50,7 @@ export default {
 
     const fetchPcList = async () => {
       try {
-        const response = await axios.get('/ListPC')
+        const response = await axios.get('/Pc/liste.php')
         pcList.value = response.data.lstpc.map((pc) => ({
           nom: pc.NAME,
           dernierContact: pc.LASTDATE,
