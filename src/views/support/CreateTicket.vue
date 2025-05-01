@@ -11,20 +11,18 @@
               <CListGroupItem>
                 <label for="category">Catégorie</label>
                 <select id="category" v-model="ticketData.category" class="form-control">
-                  <option v-for="category in categories" :key="category.idCategorie" :value="category.libelleCategorie">
+                  <option
+                    v-for="category in categories"
+                    :key="category.idCategorie"
+                    :value="category.libelleCategorie"
+                  >
                     {{ category.libelleCategorie }}
                   </option>
                 </select>
               </CListGroupItem>
               <CListGroupItem>
                 <label for="os">Système d'exploitation</label>
-                <input
-                  type="text"
-                  id="os"
-                  v-model="ticketData.os"
-                  class="form-control"
-                  readonly
-                />
+                <input type="text" id="os" v-model="ticketData.os" class="form-control" readonly />
               </CListGroupItem>
               <CListGroupItem>
                 <label for="priority">Priorité</label>
@@ -116,19 +114,23 @@ const user = JSON.parse(localStorage.getItem('user'))
 const userId = user ? user.id : null
 const submitTicket = async () => {
   try {
-    const response = await axios.post('/Support/submit_ticket.php', {
-      category: ticketData.value.category,
-      os: ticketData.value.os,
-      priority: ticketData.value.priority,
-      title: ticketData.value.title,
-      description: ticketData.value.description,
-      userid: userId,
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    
+    const response = await axios.post(
+      '/Support/submit_ticket.php',
+      {
+        category: ticketData.value.category,
+        os: ticketData.value.os,
+        priority: ticketData.value.priority,
+        title: ticketData.value.title,
+        description: ticketData.value.description,
+        userid: userId,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+
     if (response.data.success) {
       router.push(`/support`)
     } else {
