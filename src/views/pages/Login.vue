@@ -51,38 +51,39 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios';
+import axios from '@/plugins/axios'
 
 export default {
   data() {
     return {
       formData: {
         username: '',
-        password: ''
+        password: '',
       },
-      errorMessage: null
-    };
+      errorMessage: null,
+    }
   },
   methods: {
     async handleLogin() {
       try {
-        const response = await axios.post('/Connexion/authentification.php', this.formData);
+        const response = await axios.post('/Connexion/authentification.php', this.formData)
 
         // Vérifiez le succès de la réponse
-        if (response.data && response.data.message === "Connexion réussie") {
+        if (response.data && response.data.message === 'Connexion réussie') {
           // Stockez les informations utilisateur dans le localStorage
-          localStorage.setItem('user', JSON.stringify(response.data.user));
+          localStorage.setItem('user', JSON.stringify(response.data.user))
 
           // Redirigez l'utilisateur après la connexion
-          this.$router.push('/dashboard');
+          this.$router.push('/dashboard')
         } else {
-          throw new Error(response.data.message || 'Erreur de connexion.');
+          throw new Error(response.data.message || 'Erreur de connexion.')
         }
       } catch (error) {
         // Gérer les erreurs (axios renvoie un objet d'erreur détaillé)
-        this.errorMessage = error.response?.data?.message || error.message || 'Une erreur est survenue.';
+        this.errorMessage =
+          error.response?.data?.message || error.message || 'Une erreur est survenue.'
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
