@@ -1,7 +1,19 @@
 <template>
   <div v-if="!isConsultationRoute">
     <h1>Liste des PCs</h1>
-    <v-data-table :headers="headers" :items="pcList" :class="tableClass">
+    <br />
+    <div>
+      <v-text-field
+        class="mb-4"
+        v-model="search"
+        label="Rechercher"
+        variant="outlined"
+        hide-details
+        single-line
+      ></v-text-field>
+      <br />
+    </div>
+    <v-data-table :headers="headers" :items="pcList" :class="tableClass" :search="search">
       <template v-slot:item.actions="{ item }">
         <v-btn @click="consultPc(item)">Consulter</v-btn>
       </template>
@@ -13,15 +25,17 @@
 <script>
 import { useRoute, useRouter } from 'vue-router'
 import { computed, ref, onMounted } from 'vue'
-import { VDataTable, VBtn } from 'vuetify/components'
+import { VDataTable, VBtn, VTextField } from 'vuetify/components'
 import axios from '@/plugins/axios'
 
 export default {
   components: {
     VDataTable,
     VBtn,
+    VTextField,
   },
   setup() {
+    const search = ref('')
     const route = useRoute()
     const router = useRouter()
     const isConsultationRoute = computed(() => route.path.includes('consultation'))
@@ -36,7 +50,7 @@ export default {
 
     const fetchPcList = async () => {
       try {
-        const response = await axios.get('/ListPC')
+        const response = await axios.get('/Pc/liste.php')
         pcList.value = response.data.lstpc.map((pc) => ({
           nom: pc.NAME,
           dernierContact: pc.LASTDATE,
@@ -49,17 +63,33 @@ export default {
     }
 
     onMounted(() => {
+      observeThemeChange()
+      updateTableClass()
       fetchPcList()
     })
 
     const consultPc = (pc) => {
       router.push(`/liste/consultation/${pc.nom}`)
     }
-    // Utilisez le composant Vuetify useTheme pour détecter le thème actuel
-    const tableClass = computed(() => {
-      const urlParams = new URLSearchParams(window.location.href.split('?')[1])
-      return urlParams.get('theme') === 'dark' ? 'dark-table' : 'light-table'
-    })
+
+    const tableClass = ref('')
+
+    const updateTableClass = () => {
+      const theme = document.documentElement.getAttribute('data-coreui-theme')
+      tableClass.value = theme === 'dark' ? 'dark-table' : 'light-table'
+    }
+
+    let observer
+    const observeThemeChange = () => {
+      observer = new MutationObserver(() => {
+        updateTableClass()
+      })
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-coreui-theme'],
+      })
+    }
+
     return {
       isConsultationRoute,
       pcList,
@@ -67,6 +97,7 @@ export default {
       consultPc,
       error,
       tableClass,
+      search,
     }
   },
 }

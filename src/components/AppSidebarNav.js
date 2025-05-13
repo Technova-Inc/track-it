@@ -50,9 +50,40 @@ const AppSidebarNav = defineComponent({
   setup() {
     const route = useRoute()
     const firstRender = ref(true)
+    const filteredNav = ref([]) // Stocke les éléments filtrés
+
+    // Charger les informations utilisateur
+    const loadUserRole = () => {
+      const user = JSON.parse(localStorage.getItem('user'))
+      return user ? user.role : null
+    }
+
+    // Filtrer _nav en fonction du rôle de l'utilisateur
+    const filterNavByRole = (nav, role) => {
+      return nav.filter((item) => {
+        // Afficher la section Administration seulement si le rôle est > 1
+        if (item.name === 'Administration' && role <= 1) {
+          return false
+        }
+
+        // Si des sous-éléments existent, filtrer également les enfants
+        if (item.items) {
+          item.items = item.items.filter((child) => {
+            if (child.name === 'Système de support' && role <= 1) {
+              return false
+            }
+            return true
+          })
+        }
+
+        return true
+      })
+    }
 
     onMounted(() => {
       firstRender.value = false
+      const idRole = loadUserRole() // Charger le rôle de l'utilisateur
+      filteredNav.value = filterNavByRole(nav, idRole)
     })
 
     const renderItem = (item) => {
@@ -180,7 +211,7 @@ const AppSidebarNav = defineComponent({
           as: simplebar,
         },
         {
-          default: () => nav.map((item) => renderItem(item)),
+          default: () => filteredNav.value.map((item) => renderItem(item)),
         },
       )
   },

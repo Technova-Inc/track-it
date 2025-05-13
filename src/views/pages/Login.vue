@@ -6,46 +6,41 @@
           <CCardGroup>
             <CCard class="p-4">
               <CCardBody>
-                <CForm>
-                  <h1>Login</h1>
-                  <p class="text-body-secondary">Sign In to your account</p>
+                <CForm @submit.prevent="handleLogin">
+                  <h1>Connexion</h1>
+                  <p class="text-body-secondary">Connectez-vous à votre compte</p>
                   <CInputGroup class="mb-3">
                     <CInputGroupText>
                       <CIcon icon="cil-user" />
                     </CInputGroupText>
-                    <CFormInput placeholder="Username" autocomplete="username" />
+                    <CFormInput
+                      v-model="formData.username"
+                      placeholder="Nom d'utilisateur"
+                      autocomplete="username"
+                      required
+                    />
                   </CInputGroup>
                   <CInputGroup class="mb-4">
                     <CInputGroupText>
                       <CIcon icon="cil-lock-locked" />
                     </CInputGroupText>
                     <CFormInput
+                      v-model="formData.password"
                       type="password"
-                      placeholder="Password"
+                      placeholder="Mot de passe"
                       autocomplete="current-password"
+                      required
                     />
                   </CInputGroup>
                   <CRow>
                     <CCol :xs="6">
-                      <CButton color="primary" class="px-4"> Login </CButton>
-                    </CCol>
-                    <CCol :xs="6" class="text-right">
-                      <CButton color="link" class="px-0"> Forgot password? </CButton>
+                      <CButton type="submit" color="primary" class="px-4 text-white">
+                        Se connecter
+                      </CButton>
                     </CCol>
                   </CRow>
+                  <p v-if="errorMessage" class="text-danger mt-3">{{ errorMessage }}</p>
                 </CForm>
-              </CCardBody>
-            </CCard>
-            <CCard class="text-white bg-primary py-5" style="width: 44%">
-              <CCardBody class="text-center">
-                <div>
-                  <h2>Sign up</h2>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua.
-                  </p>
-                  <CButton color="light" variant="outline" class="mt-3"> Register Now! </CButton>
-                </div>
               </CCardBody>
             </CCard>
           </CCardGroup>
@@ -54,3 +49,41 @@
     </CContainer>
   </div>
 </template>
+
+<script>
+import axios from '@/plugins/axios'
+
+export default {
+  data() {
+    return {
+      formData: {
+        username: '',
+        password: '',
+      },
+      errorMessage: null,
+    }
+  },
+  methods: {
+    async handleLogin() {
+      try {
+        const response = await axios.post('/Connexion/authentification.php', this.formData)
+
+        // Vérifiez le succès de la réponse
+        if (response.data && response.data.message === 'Connexion réussie') {
+          // Stockez les informations utilisateur dans le localStorage
+          localStorage.setItem('user', JSON.stringify(response.data.user))
+
+          // Redirigez l'utilisateur après la connexion
+          this.$router.push('/dashboard')
+        } else {
+          throw new Error(response.data.message || 'Erreur de connexion.')
+        }
+      } catch (error) {
+        // Gérer les erreurs (axios renvoie un objet d'erreur détaillé)
+        this.errorMessage =
+          error.response?.data?.message || error.message || 'Une erreur est survenue.'
+      }
+    },
+  },
+}
+</script>

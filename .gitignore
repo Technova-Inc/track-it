@@ -45,3 +45,4 @@ Thumbs.db
 *~
 .vscode
 vite.config.mjs.timestamp-1740726537835-ba6f0c7b9cc98.mjs
+src/plugins/axios.js
