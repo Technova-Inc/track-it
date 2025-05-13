@@ -69,10 +69,7 @@ const AppSidebarNav = defineComponent({
         // Si des sous-éléments existent, filtrer également les enfants
         if (item.items) {
           item.items = item.items.filter((child) => {
-            if (child.name === 'Système de support' && role <= 1) {
-              return false
-            }
-            return true
+            return !(child.name === 'Système de support' && role <= 1)
           })
         }
 
