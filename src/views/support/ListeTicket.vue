@@ -95,7 +95,7 @@ export default {
       try {
         if (isAdminSupportRoute.value) {
           // Si sur la route /admin/support, récupérer tous les tickets
-          const response = await axios.get(`/Support/consult_tickets.php`)
+          const response = await axios.get("/Support/consult_tickets.php")
           ticketList.value = response.data.tickets.map((ticket) => ({
             titreTicket: ticket.titreTicket,
             user: ticket.user,

@@ -87,7 +87,7 @@ const router = createRouter({
 
 // Middleware global pour gérer les redirections
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = !!localStorage.getItem('user') // Vérifie si l'utilisateur est authentifié
+  const isAuthenticated = Boolean(localStorage.getItem('user')) // Vérifie si l'utilisateur est authentifié
   if (to.name === 'Connexion | TrackIT' && isAuthenticated) {
     // Si un utilisateur authentifié essaie d'aller sur la page de connexion, redirigez-le vers le tableau de bord
     next({ name: 'Dashboard' })
