@@ -206,7 +206,7 @@ export default {
       try {
         const response = await axios.post('/Support/delete_ticket.php', updatedTicket)
         if (response.data.success) {
-          router.push("/support")
+          router.push('/support')
         } else {
         }
       } catch (error) {
