@@ -27,7 +27,18 @@
             </CListGroup>
           </CCardBody>
         </CCard>
+        <br />
+        <!-- Nouveau bouton Vuetify pour la facture -->
+        <v-btn
+          v-if="pcData.facture"
+          color="primary"
+          dark
+          @click="factureDialog = true"
+        >
+          Voir la facture
+        </v-btn>
       </CCol>
+
       <CCol>
         <CCard>
           <CCardBody>
@@ -44,7 +55,6 @@
           <CCardBody>
             <CCardTitle class="text-center">Agent</CCardTitle>
             <CListGroup>
-              <!-- <CListGroupItem> User agent : {{ pcData.USERAGENT }} </CListGroupItem> -->
               <CListGroupItem> Dernier inventaire : {{ pcData.LASTDATE }} </CListGroupItem>
               <CListGroupItem> Dernier contact : {{ pcData.LASTCOME }} </CListGroupItem>
             </CListGroup>
@@ -65,19 +75,51 @@
       </CCol>
     </CRow>
   </CContainer>
+
+  <!-- Dialog Vuetify pour afficher la facture -->
+  <v-dialog v-model="factureDialog" max-width="800px">
+    <v-card>
+      <v-card-title class="d-flex justify-space-between align-center">
+        Facture
+        <v-btn icon @click="factureDialog = false">
+          
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </v-card-title>
+      <v-card-text>
+        <iframe
+          v-if="pcData.facture"
+          :src="pcData.facture"
+          style="width: 100%; height: 600px;"
+          frameborder="0"
+        ></iframe>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
+
 <script setup>
-import { CRow, CCol, CCard, CCardBody, CCardTitle, CListGroup, CListGroupItem } from '@coreui/vue'
+import {
+  CRow,
+  CCol,
+  CCard,
+  CCardBody,
+  CCardTitle,
+  CListGroup,
+  CListGroupItem,
+  CContainer,
+} from '@coreui/vue'
 import { defineProps, ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from '@/plugins/axios'
+import { VBtn, VDialog, VCard, VCardTitle, VCardText, VIcon } from 'vuetify/components'
 
-// Define the props
+// Props
 const props = defineProps({
   id: String,
 })
 
-// Define reactive data properties
+// Data
 const pcData = ref({
   OSVERSION: '',
   OSNAME: '',
@@ -95,14 +137,15 @@ const pcData = ref({
   LASTCOME: '',
   licensestatus: '',
   NOTE: '',
+  facture: '',
 })
 
 const route = useRoute()
 const pcId = route.params.id
-
 const note = ref('')
+const factureDialog = ref(false)
 
-// Fetch data from API
+// Fetch data
 const fetchPcData = async (id) => {
   try {
     const response = await axios.get(`/Pc/consult_pc.php?pc=${id}`)
@@ -117,7 +160,6 @@ const fetchPcData = async (id) => {
   }
 }
 
-// Fetch data on component mount
 onMounted(() => {
   fetchPcData(pcId)
 })
@@ -148,6 +190,7 @@ const saveNotes = async () => {
   }
 }
 </script>
+
 <style>
 .dark-table {
   background-color: #1d222b !important;

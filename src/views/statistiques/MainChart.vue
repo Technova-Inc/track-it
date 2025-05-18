@@ -2,33 +2,28 @@
 import { onMounted, ref } from 'vue'
 import { CChart } from '@coreui/vue-chartjs'
 import { getStyle } from '@coreui/utils'
+import axios from '@/plugins/axios'
 
-const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
-
+// Référence pour le graphique principal
 const mainChartRef = ref()
-const data = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+
+// Données réactives pour le graphique
+const data = ref({
+  labels: [],
   datasets: [
     {
-      label: 'My First dataset',
+      label: 'Contacts par mois',
       backgroundColor: `rgba(${getStyle('--cui-info-rgb')}, .1)`,
       borderColor: getStyle('--cui-info'),
       pointHoverBackgroundColor: getStyle('--cui-info'),
       borderWidth: 2,
-      data: [
-        random(50, 200),
-        random(50, 200),
-        random(50, 200),
-        random(50, 200),
-        random(50, 200),
-        random(50, 200),
-        random(50, 200),
-      ],
+      data: [],
       fill: true,
     },
   ],
-}
+})
 
+// Options de configuration pour le graphique
 const options = {
   maintainAspectRatio: false,
   plugins: {
@@ -54,11 +49,10 @@ const options = {
       grid: {
         color: getStyle('--cui-border-color-translucent'),
       },
-      max: 250,
       ticks: {
         color: getStyle('--cui-body-color'),
         maxTicksLimit: 5,
-        stepSize: Math.ceil(250 / 5),
+        
       },
     },
   },
@@ -75,29 +69,66 @@ const options = {
   },
 }
 
+// Indicateur pour vérifier si les données sont prêtes
+const isDataReady = ref(false)
+
+// Fonction pour récupérer les données de l'API
+const fetchApiData = async () => {
+  try {
+    const response = await axios.get('Dashboard/dashboard.php')
+
+    if (response.data.success) {
+      // Mise à jour des labels et des données du graphique
+      data.value.labels = response.data.data.monthly_stats.map(item => item.month)
+      data.value.datasets[0].data = response.data.data.monthly_stats.map(item => item.total_returns)
+
+      isDataReady.value = true // Les données sont prêtes
+
+      // Mise à jour du graphique si la référence est disponible
+      if (mainChartRef.value) {
+        const chart = mainChartRef.value.chart
+        chart.update()
+      }
+    } else {
+      console.error('Failed to fetch data from API')
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error)
+  }
+}
+
+// Cycle de vie onMounted
 onMounted(() => {
+  fetchApiData()
+
+  // Écoute des changements de thème pour actualiser les styles du graphique
   document.documentElement.addEventListener('ColorSchemeChange', () => {
     if (mainChartRef.value) {
-      mainChartRef.value.chart.options.scales.x.grid.borderColor = getStyle(
-        '--cui-border-color-translucent',
-      )
-      mainChartRef.value.chart.options.scales.x.grid.color = getStyle(
-        '--cui-border-color-translucent',
-      )
-      mainChartRef.value.chart.options.scales.x.ticks.color = getStyle('--cui-body-color')
-      mainChartRef.value.chart.options.scales.y.grid.borderColor = getStyle(
-        '--cui-border-color-translucent',
-      )
-      mainChartRef.value.chart.options.scales.y.grid.color = getStyle(
-        '--cui-border-color-translucent',
-      )
-      mainChartRef.value.chart.options.scales.y.ticks.color = getStyle('--cui-body-color')
-      mainChartRef.value.chart.update()
+      const chart = mainChartRef.value.chart
+      chart.options.scales.x.grid.borderColor = getStyle('--cui-border-color-translucent')
+      chart.options.scales.x.grid.color = getStyle('--cui-border-color-translucent')
+      chart.options.scales.x.ticks.color = getStyle('--cui-body-color')
+      chart.options.scales.y.grid.borderColor = getStyle('--cui-border-color-translucent')
+      chart.options.scales.y.grid.color = getStyle('--cui-border-color-translucent')
+      chart.options.scales.y.ticks.color = getStyle('--cui-body-color')
+      chart.update()
     }
   })
 })
 </script>
 
 <template>
-  <CChart type="line" :data="data" :options="options" ref="mainChartRef" />
+  <div>
+    <!-- Affichage conditionnel en fonction des données -->
+    <CChart
+      v-if="isDataReady"
+      type="line"
+      :data="data"
+      :options="options"
+      ref="mainChartRef"
+    />
+    <div v-else>
+      Chargement des données...
+    </div>
+  </div>
 </template>

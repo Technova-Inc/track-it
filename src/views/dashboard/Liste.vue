@@ -13,7 +13,7 @@
       ></v-text-field>
       <br />
     </div>
-    <v-data-table :headers="headers" :items="pcList" :class="tableClass" :search="search">
+    <v-data-table :headers="headers" :items="pcList" :items-per-page-text="`Nombre de PC par page`" :class="tableClass" :search="search">
       <template v-slot:item.actions="{ item }">
         <v-btn @click="consultPc(item)">Consulter</v-btn>
       </template>

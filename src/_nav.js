@@ -42,4 +42,11 @@ export default [
       },
     ],
   },
+  {
+    component: 'CNavItem',
+    name: 'A propos',
+    to: '/about',
+    icon: 'cil-user',
+  },
+  
 ]
