@@ -8,11 +8,11 @@ import axios from '@/plugins/axios'
 const userInfo = ref({
   username: '',
   role: '',
-  roleLabel: ''
+  roleLabel: '',
 })
 
 // Déclarez une variable pour vérifier si le mode dark est activé
-const isDarkMode = ref(false);
+const isDarkMode = ref(false)
 
 // Appliquez la détection du mode sombre lors du montage du composant
 onMounted(() => {
@@ -28,10 +28,9 @@ onMounted(() => {
   }
 
   // Détection du thème
-  detectTheme();
+  detectTheme()
   observeThemeChange()
 })
-
 
 const fetchRoleLabel = async (roleId) => {
   try {
@@ -42,7 +41,7 @@ const fetchRoleLabel = async (roleId) => {
     const data = response.data
 
     if (data.roles) {
-      const role = data.roles.find(r => r.idRole === roleId)
+      const role = data.roles.find((r) => r.idRole === roleId)
       if (role) {
         userInfo.value.roleLabel = role.libelleRole
       } else {
@@ -63,7 +62,7 @@ const detectTheme = () => {
 }
 
 const ParameterPush = () => {
-  router.push({ name: 'Paramètres' })  // Utilise le nom de la route définie dans ton routeur
+  router.push({ name: 'Paramètres' }) // Utilise le nom de la route définie dans ton routeur
 }
 
 // Observer pour détecter les changements de thème
@@ -107,16 +106,20 @@ const router = useRouter()
 
       <CDropdownDivider />
 
-      <CDropdownItem @click="ParameterPush" :class="{ 'text-white': isDarkMode, 'text-dark': !isDarkMode }">
+      <CDropdownItem
+        @click="ParameterPush"
+        :class="{ 'text-white': isDarkMode, 'text-dark': !isDarkMode }"
+      >
         <CIcon :icon="isDarkMode ? 'cil-settings' : 'cil-settings'" /> Paramètres
       </CDropdownItem>
 
-
       <CDropdownDivider />
 
-
       <!-- Appliquer couleur et icône dynamiquement selon le mode -->
-      <CDropdownItem @click="handleLogout" :class="{ 'text-white': isDarkMode, 'text-dark': !isDarkMode }">
+      <CDropdownItem
+        @click="handleLogout"
+        :class="{ 'text-white': isDarkMode, 'text-dark': !isDarkMode }"
+      >
         <CIcon icon="cil-lock-locked" /> Se déconnecter
       </CDropdownItem>
     </CDropdownMenu>
@@ -133,4 +136,3 @@ const router = useRouter()
   color: black;
 }
 </style>
-
