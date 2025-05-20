@@ -79,11 +79,11 @@ import QuentinPhoto from '@/assets/images/team/Quentin_P.JPG'
 const team = ref([
   {
     name: 'Nicolas Jouin Derrien',
-    role: 'Chef de projet / Développeur',
+    role: 'Chef de projet & Développeur',
     bio: 'Passionné par Vue.js et l’UX design.',
     photo: NicolasPhoto,
     linkedin: 'https://www.linkedin.com/in/nicolas-jde/',
-    github: 'https://github.com/alicedupont'
+    github: 'https://github.com/rundredoffi'
   },
   {
     name: 'Marin Cadro',
@@ -91,7 +91,7 @@ const team = ref([
     bio: 'Spécialisé en APIs REST et base de données.',
     photo: MarinPhoto,
     linkedin: 'https://www.linkedin.com/in/marin-cadro/',
-    github: 'https://github.com/alicedupont'
+    github: 'https://github.com/MarinCD'
   },
   {
     name: 'Quentin Parc',
@@ -99,7 +99,7 @@ const team = ref([
     bio: 'Mise en place du parc informatique, réalisation du script.',
     photo: QuentinPhoto,
     linkedin: 'https://www.linkedin.com/in/quentin-parc-77a07b288/',
-    github: 'https://github.com/alicedupont'
+    github: 'https://github.com/QuentinPrc'
   }
 ])
 </script>

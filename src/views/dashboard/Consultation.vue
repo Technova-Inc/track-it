@@ -109,7 +109,7 @@ import {
   CListGroupItem,
   CContainer,
 } from '@coreui/vue'
-import { defineProps, ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from '@/plugins/axios'
 import { VBtn, VDialog, VCard, VCardTitle, VCardText, VIcon } from 'vuetify/components'
