@@ -43,11 +43,10 @@
 
 <script>
 import { useRoute, useRouter } from 'vue-router'
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted,watch } from 'vue'
 import { VDataTable, VBtn, VTextField } from 'vuetify/components'
 import axios from '@/plugins/axios'
 import { watch } from 'vue'
-
 export default {
   components: {
     VDataTable,
@@ -95,7 +94,7 @@ export default {
       try {
         if (isAdminSupportRoute.value) {
           // Si sur la route /admin/support, récupérer tous les tickets
-          const response = await axios.get(`/Support/consult_tickets.php`)
+          const response = await axios.get('/Support/consult_tickets.php')
           ticketList.value = response.data.tickets.map((ticket) => ({
             titreTicket: ticket.titreTicket,
             user: ticket.user,

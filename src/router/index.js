@@ -16,6 +16,12 @@ const routes = [
           import(/* webpackChunkName: "dashboard" */ '@/views/dashboard/Dashboard.vue'),
       },
       {
+        path: '/parametres',
+        name: 'Paramètres',
+        component: () =>
+          import(/* webpackChunkName: "dashboard" */ '@/views/user/ParametreUser.vue'),
+      },
+      {
         path: '/liste',
         name: 'Liste des pc',
         component: () => import(/* webpackChunkName: "liste" */ '@/views/dashboard/Liste.vue'),
@@ -81,7 +87,7 @@ const router = createRouter({
 
 // Middleware global pour gérer les redirections
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = !!localStorage.getItem('user') // Vérifie si l'utilisateur est authentifié
+  const isAuthenticated = Boolean(localStorage.getItem('user')) // Vérifie si l'utilisateur est authentifié
   if (to.name === 'Connexion | TrackIT' && isAuthenticated) {
     // Si un utilisateur authentifié essaie d'aller sur la page de connexion, redirigez-le vers le tableau de bord
     next({ name: 'Dashboard' })
