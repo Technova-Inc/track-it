@@ -24,8 +24,7 @@ const routes = [
       {
         path: '/about',
         name: 'About',
-        component: () =>
-          import(/* webpackChunkName: "dashboard" */ '@/views/teams/Team.vue'),
+        component: () => import(/* webpackChunkName: "dashboard" */ '@/views/teams/Team.vue'),
       },
       {
         path: '/liste',

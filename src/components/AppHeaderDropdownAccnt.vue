@@ -22,7 +22,6 @@ onMounted(() => {
     userInfo.value = {
       username: storedUser.username,
       role: storedUser.role,
-      
     }
     fetchRoleLabel(storedUser.role) // ⬅️ appel ici
   }

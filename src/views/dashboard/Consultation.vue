@@ -71,7 +71,7 @@
       </CCol>
     </CRow>
   </CContainer>
-<br>
+  <br />
   <h1 class="text-center">Rapport de Sécurité – {{ pcId }}</h1>
 
   <!-- Nouveau container pour Rapport Audit -->
@@ -80,8 +80,7 @@
       <CCol md="8">
         <CCard v-if="scoreSecurite !== null || (risques && risques.length)">
           <CCardBody>
-            <CCardTitle class="text-center  mb-4">Score</CCardTitle>
-            
+            <CCardTitle class="text-center mb-4">Score</CCardTitle>
 
             <div v-if="scoreSecurite !== null" class="d-flex justify-center mb-3">
               <v-progress-circular
@@ -97,13 +96,8 @@
             <div v-if="risques && risques.length" class="mb-3">
               <h5>Risques détectés</h5>
               <CRow>
-                <CCol
-                  v-for="(risque, index) in risques"
-                  :key="index"
-                  md="12"
-                  class="mb-3"
-                >
-                  <CCard  class="p-3">
+                <CCol v-for="(risque, index) in risques" :key="index" md="12" class="mb-3">
+                  <CCard class="p-3">
                     {{ risque }}
                   </CCard>
                 </CCol>
@@ -113,8 +107,6 @@
             <div v-if="!scoreSecurite && (!risques || risques.length === 0)">
               <p class="text-center text-muted">Aucun risque détecté, système sain.</p>
             </div>
-
-            
           </CCardBody>
         </CCard>
         <div v-else class="text-center text-muted">
@@ -123,7 +115,7 @@
       </CCol>
     </CRow>
   </CContainer>
-  <br>
+  <br />
 
   <v-dialog v-model="factureDialog" max-width="800px">
     <v-card>
@@ -137,7 +129,7 @@
         <iframe
           v-if="pcData.facture"
           :src="pcData.facture"
-          style="width: 100%; height: 600px;"
+          style="width: 100%; height: 600px"
           frameborder="0"
         ></iframe>
       </v-card-text>

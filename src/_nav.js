@@ -48,5 +48,4 @@ export default [
     to: '/about',
     icon: 'cil-user',
   },
-  
 ]

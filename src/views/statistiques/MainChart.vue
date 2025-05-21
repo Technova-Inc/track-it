@@ -52,7 +52,6 @@ const options = {
       ticks: {
         color: getStyle('--cui-body-color'),
         maxTicksLimit: 5,
-        
       },
     },
   },
@@ -79,8 +78,10 @@ const fetchApiData = async () => {
 
     if (response.data.success) {
       // Mise à jour des labels et des données du graphique
-      data.value.labels = response.data.data.monthly_stats.map(item => item.month)
-      data.value.datasets[0].data = response.data.data.monthly_stats.map(item => item.total_returns)
+      data.value.labels = response.data.data.monthly_stats.map((item) => item.month)
+      data.value.datasets[0].data = response.data.data.monthly_stats.map(
+        (item) => item.total_returns,
+      )
 
       isDataReady.value = true // Les données sont prêtes
 
@@ -120,15 +121,7 @@ onMounted(() => {
 <template>
   <div>
     <!-- Affichage conditionnel en fonction des données -->
-    <CChart
-      v-if="isDataReady"
-      type="line"
-      :data="data"
-      :options="options"
-      ref="mainChartRef"
-    />
-    <div v-else>
-      Chargement des données...
-    </div>
+    <CChart v-if="isDataReady" type="line" :data="data" :options="options" ref="mainChartRef" />
+    <div v-else>Chargement des données...</div>
   </div>
 </template>

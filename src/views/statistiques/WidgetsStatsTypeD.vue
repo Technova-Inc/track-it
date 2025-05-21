@@ -3,7 +3,13 @@
     <h1>Tickets</h1>
     <CRow :xs="{ gutter: 4 }">
       <!-- Affichage des statistiques pour l'utilisateur support -->
-      <CCol :sm="6" :xl="4" :xxl="3" v-for="(stat, index) in supportStats" :key="'support-' + index">
+      <CCol
+        :sm="6"
+        :xl="4"
+        :xxl="3"
+        v-for="(stat, index) in supportStats"
+        :key="'support-' + index"
+      >
         <CWidgetStatsA :color="stat.color">
           <template #value>{{ stat.value }}</template>
           <template #title>{{ stat.title }}</template>
@@ -49,7 +55,7 @@ const supportStats = ref([
     color: 'success',
   },
   {
-    title: 'Tickets résolus aujourd\'hui',
+    title: "Tickets résolus aujourd'hui",
     value: '0',
     color: 'primary',
   },
@@ -75,12 +81,12 @@ const fetchSupportStats = async () => {
       {
         title: 'Taux de clôture',
         value: data.closure_rate_percent + '%',
-        color: (parseFloat(data.closure_rate_percent) < 50) ? 'danger' : 'success', // Si < 50%, couleur danger, sinon success
+        color: parseFloat(data.closure_rate_percent) < 50 ? 'danger' : 'success', // Si < 50%, couleur danger, sinon success
       },
       {
         title: 'Temps moyen de résolution',
         value: formatResolutionTime(data.avg_resolution_time_hours),
-        color: (parseFloat(data.avg_resolution_time_hours) > 24) ? 'danger' : 'success', // Plus de 24h = danger, sinon success
+        color: parseFloat(data.avg_resolution_time_hours) > 24 ? 'danger' : 'success', // Plus de 24h = danger, sinon success
       },
       {
         title: 'Tickets en cours',
@@ -103,14 +109,14 @@ const fetchSupportStats = async () => {
         color: 'success', // Résolus = succès
       },
       {
-        title: 'Tickets résolus aujourd\'hui',
+        title: "Tickets résolus aujourd'hui",
         value: data.resolved_today,
         color: 'primary', // Statistique en temps réel, donc priorité
       },
       {
         title: 'Tickets en attente depuis plus de 48h',
         value: data.stale_tickets,
-        color: (data.stale_tickets > 0) ? 'danger' : 'secondary', // Si > 0 tickets vieux > 48h, danger, sinon light
+        color: data.stale_tickets > 0 ? 'danger' : 'secondary', // Si > 0 tickets vieux > 48h, danger, sinon light
       },
     ]
   } catch (error) {
@@ -122,10 +128,10 @@ const fetchSupportStats = async () => {
 const formatResolutionTime = (time) => {
   if (time.includes('j')) {
     // Si c'est un temps en jours (format "1.1 j"), on convertit en heures
-    const days = parseFloat(time);
-    const hours = Math.round(days * 24); // Convertir les jours en heures
-    return `${hours}h`;
+    const days = parseFloat(time)
+    const hours = Math.round(days * 24) // Convertir les jours en heures
+    return `${hours}h`
   }
-  return time; // Si ce n'est pas en jours, on retourne tel quel
+  return time // Si ce n'est pas en jours, on retourne tel quel
 }
 </script>
