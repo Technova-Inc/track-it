@@ -124,7 +124,6 @@ const router = useRouter()
     </CDropdownMenu>
   </CDropdown>
 </template>
-
 <style scoped>
 /* Définir des couleurs personnalisées pour les textes */
 .text-white {
