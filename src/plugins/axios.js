@@ -3,7 +3,7 @@ import axios from 'axios'
 // Configuration de l'instance Axios
 const instance = axios.create({
   withCredentials: false,
-  baseURL: 'http://localhost/api/',
+  baseURL: 'https://api-trackit.jouin.bzh/',
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',

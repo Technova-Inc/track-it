@@ -34,7 +34,7 @@ onMounted(() => {
 
 const fetchRoleLabel = async (roleId) => {
   try {
-    const response = await axios.get('http://localhost/api/Connexion/detailrole.php', {
+    const response = await axios.get('/Connexion/detailrole.php', {
       withCredentials: true, // équivalent de `credentials: 'include'`
     })
 

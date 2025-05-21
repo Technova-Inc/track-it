@@ -2,7 +2,6 @@
   <h1 class="text-center">Consultation de {{ pcId }}</h1>
   <br /><br />
 
-  <!-- Container principal : infos système, hardware, réseau, notes -->
   <CContainer>
     <CRow>
       <CCol>
