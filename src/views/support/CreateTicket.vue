@@ -132,7 +132,7 @@ const submitTicket = async () => {
     )
 
     if (response.data.success) {
-      router.push(`/support`)
+      router.push('/support')
     } else {
     }
   } catch (error) {
