@@ -1,6 +1,8 @@
 <template>
   <h1 class="text-center">Consultation de {{ pcId }}</h1>
   <br /><br />
+
+  <!-- Container principal : infos système, hardware, réseau, notes -->
   <CContainer>
     <CRow>
       <CCol>
@@ -28,13 +30,7 @@
           </CCardBody>
         </CCard>
         <br />
-        <!-- Nouveau bouton Vuetify pour la facture -->
-        <v-btn
-          v-if="pcData.facture"
-          color="primary"
-          dark
-          @click="factureDialog = true"
-        >
+        <v-btn v-if="pcData.facture" color="primary" dark @click="factureDialog = true">
           Voir la facture
         </v-btn>
       </CCol>
@@ -61,6 +57,7 @@
           </CCardBody>
         </CCard>
         <br />
+
         <CCard>
           <CCardBody>
             <CCardTitle class="text-center">Notes</CCardTitle>
@@ -75,14 +72,65 @@
       </CCol>
     </CRow>
   </CContainer>
+<br>
+  <h1 class="text-center">Rapport de Sécurité – {{ pcId }}</h1>
 
-  <!-- Dialog Vuetify pour afficher la facture -->
+  <!-- Nouveau container pour Rapport Audit -->
+  <CContainer class="mt-5">
+    <CRow class="justify-content-center">
+      <CCol md="8">
+        <CCard v-if="scoreSecurite !== null || (risques && risques.length)">
+          <CCardBody>
+            <CCardTitle class="text-center  mb-4">Score</CCardTitle>
+            
+
+            <div v-if="scoreSecurite !== null" class="d-flex justify-center mb-3">
+              <v-progress-circular
+                :model-value="scoreSecurite"
+                color="success"
+                :size="100"
+                :width="12"
+              >
+                {{ scoreSecurite }}%
+              </v-progress-circular>
+            </div>
+
+            <div v-if="risques && risques.length" class="mb-3">
+              <h5>Risques détectés</h5>
+              <CRow>
+                <CCol
+                  v-for="(risque, index) in risques"
+                  :key="index"
+                  md="12"
+                  class="mb-3"
+                >
+                  <CCard  class="p-3">
+                    {{ risque }}
+                  </CCard>
+                </CCol>
+              </CRow>
+            </div>
+
+            <div v-if="!scoreSecurite && (!risques || risques.length === 0)">
+              <p class="text-center text-muted">Aucun risque détecté, système sain.</p>
+            </div>
+
+            
+          </CCardBody>
+        </CCard>
+        <div v-else class="text-center text-muted">
+          <p>Aucun rapport d'audit disponible.</p>
+        </div>
+      </CCol>
+    </CRow>
+  </CContainer>
+  <br>
+
   <v-dialog v-model="factureDialog" max-width="800px">
     <v-card>
       <v-card-title class="d-flex justify-space-between align-center">
         Facture
         <v-btn icon @click="factureDialog = false">
-          
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
@@ -109,17 +157,27 @@ import {
   CListGroupItem,
   CContainer,
 } from '@coreui/vue'
-import { defineProps, ref, onMounted } from 'vue'
+import { ref, onMounted, defineProps } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from '@/plugins/axios'
-import { VBtn, VDialog, VCard, VCardTitle, VCardText, VIcon } from 'vuetify/components'
 
-// Props
+import {
+  VBtn,
+  VDialog,
+  VCard,
+  VCardTitle,
+  VCardText,
+  VIcon,
+  VProgressCircular,
+} from 'vuetify/components'
+
 const props = defineProps({
   id: String,
 })
 
-// Data
+const route = useRoute()
+const pcId = route.params.id
+
 const pcData = ref({
   OSVERSION: '',
   OSNAME: '',
@@ -140,23 +198,35 @@ const pcData = ref({
   facture: '',
 })
 
-const route = useRoute()
-const pcId = route.params.id
+const scoreSecurite = ref(null)
+const risques = ref([])
 const note = ref('')
 const factureDialog = ref(false)
 
-// Fetch data
 const fetchPcData = async (id) => {
   try {
     const response = await axios.get(`/Pc/consult_pc.php?pc=${id}`)
     if (response.data?.pc && response.data.pc.length > 0) {
       pcData.value = response.data.pc[0]
       note.value = pcData.value.NOTE
-    } else {
-      console.error("Aucune donnée trouvée pour l'ID spécifié")
+
+      if (response.data.rapport && response.data.rapport.length > 0) {
+        const rapport = response.data.rapport[0]
+        scoreSecurite.value = rapport.ScoreSecurite || 0
+        if (rapport.Risques) {
+          try {
+            risques.value = JSON.parse(rapport.Risques)
+          } catch {
+            risques.value = []
+          }
+        }
+      } else {
+        scoreSecurite.value = null
+        risques.value = []
+      }
     }
   } catch (error) {
-    console.error('Erreur lors de la récupération des données:', error)
+    console.error('Erreur récupération données:', error)
   }
 }
 
@@ -168,24 +238,16 @@ const saveNotes = async () => {
   try {
     const response = await axios.post(
       '/Pc/consult_notes.php',
-      {
-        pc: pcId,
-        note: note.value,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
+      { pc: pcId, note: note.value },
+      { headers: { 'Content-Type': 'application/json' } },
     )
-
     if (response.data.success) {
       alert('Note sauvegardée avec succès.')
     } else {
       alert('Erreur lors de la sauvegarde de la note.')
     }
   } catch (error) {
-    console.error('Erreur lors de la sauvegarde de la note:', error)
+    console.error('Erreur sauvegarde note:', error)
     alert('Erreur serveur lors de la sauvegarde de la note.')
   }
 }
