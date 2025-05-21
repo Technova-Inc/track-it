@@ -7,7 +7,7 @@ const routes = [
     path: '/',
     name: 'Accueil',
     component: DefaultLayout,
-    redirect: '/dashboard',
+    redirect: '/about',
     children: [
       {
         path: '/dashboard',
@@ -20,6 +20,11 @@ const routes = [
         name: 'Paramètres',
         component: () =>
           import(/* webpackChunkName: "dashboard" */ '@/views/user/ParametreUser.vue'),
+      },
+      {
+        path: '/about',
+        name: 'About',
+        component: () => import(/* webpackChunkName: "dashboard" */ '@/views/teams/Team.vue'),
       },
       {
         path: '/liste',
